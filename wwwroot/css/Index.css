@@ -1,16 +1,4 @@
-﻿
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    background: linear-gradient(135deg, #f5f0e6 0%, #e8d9c5 100%);
-    font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-    min-height: 100vh;
-}
-
+﻿ 
 /* Gold theme colors */
 :root {
     --gold-primary: #b8860b;
@@ -28,6 +16,8 @@ body {
     border-radius: 0 0 35px 35px;
     box-shadow: 0 5px 20px rgba(184, 134, 11, 0.1);
     margin-bottom: 25px;
+    margin-left: -24px;
+    margin-right: -24px;
 }
 
 .welcome-section {
@@ -85,7 +75,6 @@ body {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
-    padding: 0 20px;
     margin-bottom: 30px;
 }
 
@@ -141,7 +130,6 @@ body {
 
 /* Main Menu Grid */
 .menu-title {
-    padding: 0 20px;
     margin: 25px 0 15px 0;
     font-size: 1.2rem;
     font-weight: 600;
@@ -152,7 +140,6 @@ body {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 18px;
-    padding: 0 20px;
     margin-bottom: 30px;
 }
 
@@ -167,6 +154,8 @@ body {
     border: 2px solid transparent;
     position: relative;
     overflow: hidden;
+    display: block;
+    color: inherit;
 }
 
     .menu-card::before {
@@ -183,6 +172,8 @@ body {
         transform: translateY(-8px);
         box-shadow: 0 25px 45px rgba(184, 134, 11, 0.25);
         border-color: #ffd700;
+        text-decoration: none;
+        color: inherit;
     }
 
 .menu-icon {
@@ -226,11 +217,79 @@ body {
     font-weight: 500;
 }
 
+/* Recent Customers Section */
+.recent-customers-card {
+    background: white;
+    border-radius: 25px;
+    padding: 15px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+}
+
+.customer-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0e8d8;
+}
+
+    .customer-item:last-child {
+        border-bottom: none;
+    }
+
+.customer-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.customer-avatar {
+    width: 45px;
+    height: 45px;
+    background: #f5e7c8;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .customer-avatar i {
+        font-size: 1.2rem;
+        color: #b8860b;
+    }
+
+.customer-details {
+    font-weight: 700;
+    color: #4a3b1a;
+}
+
+.customer-action {
+    font-size: 0.8rem;
+    color: #b8860b;
+}
+
+.customer-transaction {
+    text-align: right;
+}
+
+.transaction-amount {
+    font-weight: 700;
+    color: #4a3b1a;
+}
+
+.transaction-time {
+    font-size: 0.7rem;
+    color: #22c55e;
+}
+
 /* Quick Actions */
 .quick-actions {
-    padding: 20px;
     background: linear-gradient(145deg, #b8860b, #daa520);
     border-radius: 35px 35px 0 0;
+    padding: 20px 24px;
+    margin-left: -24px;
+    margin-right: -24px;
     margin-top: 30px;
 }
 
@@ -270,6 +329,8 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+    border: none;
+    cursor: pointer;
 }
 
     .action-btn i {
@@ -286,11 +347,14 @@ body {
 .bottom-nav {
     background: white;
     border-radius: 35px 35px 0 0;
-    padding: 15px 25px;
+    padding: 15px 24px;
     display: flex;
     justify-content: space-around;
     box-shadow: 0 -5px 30px rgba(184, 134, 11, 0.15);
     margin-top: 20px;
+    margin-left: -24px;
+    margin-right: -24px;
+    margin-bottom: -24px;
 }
 
 .nav-item {
@@ -302,6 +366,11 @@ body {
     transition: all 0.2s ease;
     gap: 5px;
 }
+
+    .nav-item:hover {
+        text-decoration: none;
+        color: #b8860b;
+    }
 
     .nav-item.active {
         color: #b8860b;
@@ -319,20 +388,13 @@ body {
 
 /* Responsive adjustments */
 @media (min-width: 768px) {
-    .menu-grid
+    .menu-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
 
-{
-    grid-template-columns: repeat(4, 1fr);
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
-.stats-grid {
-    grid-template-columns: repeat(4, 1fr);
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-}
  

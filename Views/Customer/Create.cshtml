@@ -1,0 +1,109 @@
+﻿@model JewelleryManagement.Models.Customer
+
+@{
+    ViewData["Title"] = "নতুন গ্রাহক";
+}
+
+<style>
+    .form-container {
+        background: white;
+        border-radius: 30px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .form-title {
+        color: #4a3b1a;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+        .form-title i {
+            color: #b8860b;
+            margin-right: 10px;
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        color: #4a3b1a;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .form-control {
+        border: 2px solid #f0e8d8;
+        border-radius: 15px;
+        padding: 12px 15px;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #b8860b;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
+        }
+
+    .btn-submit {
+        background: linear-gradient(145deg, #b8860b, #daa520);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 30px;
+        font-weight: 600;
+        width: 100%;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+    }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(184, 134, 11, 0.3);
+        }
+</style>
+
+<div class="form-container">
+    <h2 class="form-title">
+        <i class="fas fa-user-plus"></i>
+        নতুন গ্রাহক যোগ করুন
+    </h2>
+
+    <form asp-action="Create" method="post">
+        <div class="form-group">
+            <label class="form-label">নাম *</label>
+            <input asp-for="Name" class="form-control" placeholder="গ্রাহকের পুরো নাম" required />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">মোবাইল নম্বর *</label>
+            <input asp-for="Phone" class="form-control" placeholder="০১৭১২-৩৪৫৬৭৮" required />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">ঠিকানা</label>
+            <textarea asp-for="Address" class="form-control" rows="3" placeholder="গ্রাহকের ঠিকানা"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">স্ট্যাটাস</label>
+            <select asp-for="Status" class="form-control">
+                <option value="সক্রিয়">সক্রিয়</option>
+                <option value="নতুন">নতুন</option>
+                <option value="প্রিমিয়াম">প্রিমিয়াম</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn-submit">
+            <i class="fas fa-save me-2"></i>
+            গ্রাহক সংরক্ষণ করুন
+        </button>
+    </form>
+</div>

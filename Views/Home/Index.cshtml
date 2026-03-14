@@ -1,1 +1,241 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+
+<link href="~/css/index.css" rel="stylesheet" />
+<!-- App Bar -->
+<div class="app-bar">
+    <div class="welcome-section">
+        <div class="user-greeting">
+            <h1>স্বাগতম! 👋</h1>
+            <p>গোল্ড বিজনেস ম্যানেজার</p>
+        </div>
+        <div class="gold-rate-card">
+            <small>আজকের সোনার দর</small>
+            <div class="rate">₹5,850</div>
+            <div class="unit">/গ্রাম</div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Stats -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-details">
+            <h3>মোট গ্রাহক</h3>
+            <div class="value">248 <span class="change">+12</span></div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="stat-details">
+            <h3>আজকের বিক্রয়</h3>
+            <div class="value">18 <span class="change">+5</span></div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-weight-hanging"></i>
+        </div>
+        <div class="stat-details">
+            <h3>স্টক (গ্রাম)</h3>
+            <div class="value">2.5k <span class="change">-0.2k</span></div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-clock"></i>
+        </div>
+        <div class="stat-details">
+            <h3>পেন্ডিং অর্ডার</h3>
+            <div class="value">7 <span class="change">+2</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Menu Title -->
+<h2 class="menu-title">
+    <i class="fas fa-th-large" style="margin-right: 10px; color: #b8860b;"></i>
+    মূল মেনু
+</h2>
+
+<!-- Main Menu Grid -->
+<div class="menu-grid">
+    <!-- Add Customer Card -->
+    <a href="#" class="menu-card">
+        <div class="menu-icon">
+            <i class="fas fa-user-plus"></i>
+        </div>
+        <h3>গ্রাহক যোগ</h3>
+        <p>নতুন গ্রাহক তৈরি</p>
+    </a>
+
+    <!-- Sell Card -->
+    <a href="#" class="menu-card">
+        <div class="menu-icon">
+            <i class="fas fa-hand-holding-usd"></i>
+        </div>
+        <h3>বিক্রয়</h3>
+        <p>পণ্য বিক্রয় করুন</p>
+    </a>
+
+    <!-- Buy Card -->
+    <a href="#" class="menu-card">
+        <div class="menu-icon">
+            <i class="fas fa-shopping-cart"></i>
+        </div>
+        <h3>ক্রয়</h3>
+        <p>পণ্য ক্রয় করুন</p>
+    </a>
+
+    <!-- SMS Card -->
+    <a href="#" class="menu-card">
+        <div class="menu-icon">
+            <i class="fas fa-sms"></i>
+        </div>
+        <h3>SMS পাঠান</h3>
+        <p>গ্রাহককে বার্তা</p>
+    </a>
+</div>
+
+<!-- Recent Customers Section -->
+<h2 class="menu-title">
+    <i class="fas fa-history" style="margin-right: 10px; color: #b8860b;"></i>
+    সাম্প্রতিক গ্রাহক
+</h2>
+
+<div class="recent-customers-card">
+    <div class="customer-item">
+        <div class="customer-info">
+            <div class="customer-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div>
+                <div class="customer-details">রহিম মিয়া</div>
+                <div class="customer-action">সোনার চেইন কিনেছেন</div>
+            </div>
+        </div>
+        <div class="customer-transaction">
+            <div class="transaction-amount">১২ গ্রাম</div>
+            <div class="transaction-time">আজ ১০:৩০ AM</div>
+        </div>
+    </div>
+
+    <div class="customer-item">
+        <div class="customer-info">
+            <div class="customer-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div>
+                <div class="customer-details">করিমা বেগম</div>
+                <div class="customer-action">গহনা বিক্রি করেছেন</div>
+            </div>
+        </div>
+        <div class="customer-transaction">
+            <div class="transaction-amount">২৫ গ্রাম</div>
+            <div class="transaction-time">গতকাল ৩:৪৫ PM</div>
+        </div>
+    </div>
+
+    <div class="customer-item">
+        <div class="customer-info">
+            <div class="customer-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div>
+                <div class="customer-details">শফিকুল ইসলাম</div>
+                <div class="customer-action">বালা অর্ডার করেছেন</div>
+            </div>
+        </div>
+        <div class="customer-transaction">
+            <div class="transaction-amount">১৮ গ্রাম</div>
+            <div class="transaction-time">গতকাল ১১:১৫ AM</div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="quick-actions">
+    <div class="quick-actions-title">
+        <i class="fas fa-bolt"></i>
+        দ্রুত অ্যাকশন
+    </div>
+    <div class="action-buttons">
+        <button class="action-btn">
+            <i class="fas fa-calculator"></i>
+            দর গণনা
+        </button>
+        <button class="action-btn">
+            <i class="fas fa-file-invoice"></i>
+            আজকের রিপোর্ট
+        </button>
+        <button class="action-btn">
+            <i class="fas fa-bell"></i>
+            রিমাইন্ডার
+        </button>
+        <button class="action-btn">
+            <i class="fas fa-qrcode"></i>
+            স্ক্যান QR
+        </button>
+        <button class="action-btn">
+            <i class="fas fa-download"></i>
+            এক্সপোর্ট
+        </button>
+    </div>
+</div>
+
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+    <a href="#" class="nav-item active">
+        <i class="fas fa-home"></i>
+        <span>হোম</span>
+    </a>
+    <a href="#" class="nav-item">
+        <i class="fas fa-chart-bar"></i>
+        <span>রিপোর্ট</span>
+    </a>
+    <a href="#" class="nav-item">
+        <i class="fas fa-wallet"></i>
+        <span>স্টক</span>
+    </a>
+    <a href="#" class="nav-item">
+        <i class="fas fa-cog"></i>
+        <span>সেটিংস</span>
+    </a>
+    <a href="#" class="nav-item">
+        <i class="fas fa-user"></i>
+        <span>প্রোফাইল</span>
+    </a>
+</div>
+
+@section Scripts {
+    <script>
+        // Add active state to menu cards
+        document.querySelectorAll('.menu-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                e.preventDefault();
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 200);
+            });
+        });
+
+        // Active navigation handling
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+    </script>
+}
