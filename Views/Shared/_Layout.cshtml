@@ -2,48 +2,559 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - JewelleryManagement</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Gold Business Manager - Dashboard</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/JewelleryManagement.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f0e6 0%, #e8d9c5 100%);
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Gold theme colors */
+        :root {
+            --gold-primary: #b8860b;
+            --gold-secondary: #daa520;
+            --gold-light: #f5e7c8;
+            --gold-dark: #8b6910;
+            --cream: #fff9f0;
+            --shadow: 0 15px 35px rgba(184, 134, 11, 0.15);
+        }
+
+        /* App Bar */
+        .app-bar {
+            background: linear-gradient(145deg, #ffffff, #fff9f0);
+            padding: 20px 24px;
+            border-radius: 0 0 35px 35px;
+            box-shadow: 0 5px 20px rgba(184, 134, 11, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .welcome-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .user-greeting h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #4a3b1a;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .user-greeting p {
+            color: #b8860b;
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin: 5px 0 0 0;
+        }
+
+        .gold-rate-card {
+            background: linear-gradient(145deg, #b8860b, #daa520);
+            padding: 15px 20px;
+            border-radius: 25px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(184, 134, 11, 0.3);
+            min-width: 130px;
+        }
+
+        .gold-rate-card small {
+            display: block;
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin-bottom: 3px;
+        }
+
+        .gold-rate-card .rate {
+            font-size: 1.5rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .gold-rate-card .unit {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 0 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 18px 15px;
+            border-radius: 25px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(145deg, #f5e7c8, #fff4e0);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .stat-icon i {
+            font-size: 1.5rem;
+            color: #b8860b;
+        }
+
+        .stat-details h3 {
+            font-size: 0.9rem;
+            color: #8a7a5a;
+            margin: 0 0 5px 0;
+            font-weight: 500;
+        }
+
+        .stat-details .value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #4a3b1a;
+            line-height: 1;
+        }
+
+        .stat-details .change {
+            font-size: 0.75rem;
+            color: #22c55e;
+            margin-left: 8px;
+        }
+
+        /* Main Menu Grid */
+        .menu-title {
+            padding: 0 20px;
+            margin: 25px 0 15px 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #4a3b1a;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            padding: 0 20px;
+            margin-bottom: 30px;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 30px;
+            padding: 25px 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #b8860b, #daa520, #ffd700);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 45px rgba(184, 134, 11, 0.25);
+            border-color: #ffd700;
+        }
+
+        .menu-icon {
+            width: 75px;
+            height: 75px;
+            background: linear-gradient(145deg, #fff4e0, #f5e7c8);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px auto;
+            transition: all 0.3s ease;
+        }
+
+        .menu-card:hover .menu-icon {
+            background: linear-gradient(145deg, #b8860b, #daa520);
+        }
+
+        .menu-icon i {
+            font-size: 2.5rem;
+            color: #b8860b;
+            transition: all 0.3s ease;
+        }
+
+        .menu-card:hover .menu-icon i {
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .menu-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #4a3b1a;
+            margin: 0 0 5px 0;
+        }
+
+        .menu-card p {
+            font-size: 0.85rem;
+            color: #b8860b;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            padding: 20px;
+            background: linear-gradient(145deg, #b8860b, #daa520);
+            border-radius: 35px 35px 0 0;
+            margin-top: 30px;
+        }
+
+        .quick-actions-title {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 5px 0 15px 0;
+            scrollbar-width: none;
+        }
+
+        .action-buttons::-webkit-scrollbar {
+            display: none;
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 25px;
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn i {
+            font-size: 1rem;
+        }
+
+        .action-btn:hover {
+            background: white;
+            color: #b8860b;
+            transform: scale(0.95);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            background: white;
+            border-radius: 35px 35px 0 0;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 -5px 30px rgba(184, 134, 11, 0.15);
+            margin-top: 20px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #b4a582;
+            transition: all 0.2s ease;
+            gap: 5px;
+        }
+
+        .nav-item.active {
+            color: #b8860b;
+            transform: translateY(-3px);
+        }
+
+        .nav-item i {
+            font-size: 1.4rem;
+        }
+
+        .nav-item span {
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* Responsive adjustments */
+        media (min-width: 768px) {
+            .menu-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">JewelleryManagement</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <div class="app-bar">
+        <div class="welcome-section">
+            <div class="user-greeting">
+                <h1>স্বাগতম! 👋</h1>
+                <p>গোল্ড বিজনেস ম্যানেজার</p>
+            </div>
+            <div class="gold-rate-card">
+                <small>আজকের সোনার দর</small>
+                <div class="rate">₹5,850</div>
+                <div class="unit">/গ্রাম</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-details">
+                <h3>মোট গ্রাহক</h3>
+                <div class="value">248 <span class="change">+12</span></div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="stat-details">
+                <h3>আজকের বিক্রয়</h3>
+                <div class="value">18 <span class="change">+5</span></div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-weight-hanging"></i>
+            </div>
+            <div class="stat-details">
+                <h3>স্টক (গ্রাম)</h3>
+                <div class="value">2.5k <span class="change">-0.2k</span></div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="stat-details">
+                <h3>পেন্ডিং অর্ডার</h3>
+                <div class="value">7 <span class="change">+2</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Menu Title -->
+    <h2 class="menu-title">
+        <i class="fas fa-th-large" style="margin-right: 10px; color: #b8860b;"></i>
+        মূল মেনু
+    </h2>
+
+    <!-- Main Menu Grid -->
+    <div class="menu-grid">
+        <!-- Add Customer Card -->
+        <a href="#" class="menu-card">
+            <div class="menu-icon">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <h3>গ্রাহক যোগ</h3>
+            <p>নতুন গ্রাহক তৈরি</p>
+        </a>
+
+        <!-- Sell Card -->
+        <a href="#" class="menu-card">
+            <div class="menu-icon">
+                <i class="fas fa-hand-holding-usd"></i>
+            </div>
+            <h3>বিক্রয়</h3>
+            <p>পণ্য বিক্রয় করুন</p>
+        </a>
+
+        <!-- Buy Card -->
+        <a href="#" class="menu-card">
+            <div class="menu-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <h3>ক্রয়</h3>
+            <p>পণ্য ক্রয় করুন</p>
+        </a>
+
+        <!-- SMS Card -->
+        <a href="#" class="menu-card">
+            <div class="menu-icon">
+                <i class="fas fa-sms"></i>
+            </div>
+            <h3>SMS পাঠান</h3>
+            <p>গ্রাহককে বার্তা</p>
+        </a>
+    </div>
+
+    <!-- Recent Customers Section -->
+    <h2 class="menu-title">
+        <i class="fas fa-history" style="margin-right: 10px; color: #b8860b;"></i>
+        সাম্প্রতিক গ্রাহক
+    </h2>
+
+    <div style="padding: 0 20px;">
+        <div style="background: white; border-radius: 25px; padding: 15px; box-shadow: var(--shadow);">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0e8d8;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="width: 45px; height: 45px; background: #f5e7c8; border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-user" style="color: #b8860b;"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: 700; color: #4a3b1a;">রহিম মিয়া</div>
+                        <div style="font-size: 0.8rem; color: #b8860b;">সোনার চেইন কিনেছেন</div>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-weight: 700; color: #4a3b1a;">১২ গ্রাম</div>
+                    <div style="font-size: 0.7rem; color: #22c55e;">আজ ১০:৩০ AM</div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
+
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0e8d8;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="width: 45px; height: 45px; background: #f5e7c8; border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-user" style="color: #b8860b;"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: 700; color: #4a3b1a;">করিমা বেগম</div>
+                        <div style="font-size: 0.8rem; color: #b8860b;">গহনা বিক্রি করেছেন</div>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-weight: 700; color: #4a3b1a;">২৫ গ্রাম</div>
+                    <div style="font-size: 0.7rem; color: #22c55e;">গতকাল ৩:৪৫ PM</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <div class="quick-actions-title">
+            <i class="fas fa-bolt"></i>
+            দ্রুত অ্যাকশন
+        </div>
+        <div class="action-buttons">
+            <button class="action-btn">
+                <i class="fas fa-calculator"></i>
+                দর গণনা
+            </button>
+            <button class="action-btn">
+                <i class="fas fa-file-invoice"></i>
+                আজকের রিপোর্ট
+            </button>
+            <button class="action-btn">
+                <i class="fas fa-bell"></i>
+                রিমাইন্ডার
+            </button>
+            <button class="action-btn">
+                <i class="fas fa-qrcode"></i>
+                স্ক্যান QR
+            </button>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="#" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>হোম</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-chart-bar"></i>
+            <span>রিপোর্ট</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-wallet"></i>
+            <span>স্টক</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>সেটিংস</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>প্রোফাইল</span>
+        </a>
+    </div>
+      <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - JewelleryManagement - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        // Add active state to menu cards
+        document.querySelectorAll('.menu-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Remove active class from all cards
+                document.querySelectorAll('.menu-card').forEach(c => {
+                    c.style.transform = 'scale(1)';
+                });
+                // Add active effect
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 200);
+            });
+        });
+    </script>
 </body>
 </html>

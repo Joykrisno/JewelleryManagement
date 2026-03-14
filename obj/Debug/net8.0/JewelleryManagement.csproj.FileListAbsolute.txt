@@ -31,3 +31,4 @@ D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManageme
 D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Debug\net8.0\JewelleryManagement.pdb
 D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Debug\net8.0\JewelleryManagement.genruntimeconfig.cache
 D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Debug\net8.0\ref\JewelleryManagement.dll
+D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Debug\net8.0\JewelleryManagement.sourcelink.json
