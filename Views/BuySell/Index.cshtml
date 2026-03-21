@@ -1,0 +1,1536 @@
+﻿@model IEnumerable<JewelleryManagement.Controllers.Transaction>
+
+@{
+    ViewData["Title"] = "ক্রয় ও বিক্রয় ব্যবস্থাপনা";
+}
+
+<style>
+    /* Main Container Styles */
+    .buysell-container {
+        padding: 20px 0;
+    }
+
+    /* Loading Spinner */
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        backdrop-filter: blur(5px);
+    }
+
+    .loading-spinner {
+        width: 60px;
+        height: 60px;
+        border: 5px solid #f5e7c8;
+        border-top-color: #b8860b;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @@keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Notification Toast */
+    .notification-toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        border-radius: 15px;
+        padding: 15px 25px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        display: none;
+        align-items: center;
+        gap: 12px;
+        z-index: 10000;
+        border-left: 5px solid #b8860b;
+        max-width: 350px;
+        animation: slideIn 0.3s ease;
+    }
+
+    @@keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    .notification-toast.success {
+        border-left-color: #28a745;
+    }
+
+    .notification-toast.error {
+        border-left-color: #dc3545;
+    }
+
+    .notification-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+    }
+
+        .notification-icon.success {
+            background: #d4edda;
+            color: #28a745;
+        }
+
+        .notification-icon.error {
+            background: #f8d7da;
+            color: #dc3545;
+        }
+
+    .notification-content {
+        flex: 1;
+    }
+
+    .notification-title {
+        font-weight: 700;
+        color: #4a3b1a;
+        margin-bottom: 3px;
+    }
+
+    .notification-message {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+    .close-notification {
+        cursor: pointer;
+        color: #999;
+        font-size: 1.2rem;
+    }
+
+    /* Gold Rate Cards */
+    .gold-rates-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .gold-rate-card {
+        background: white;
+        border-radius: 20px;
+        padding: 20px 15px;
+        box-shadow: 0 15px 35px rgba(184, 134, 11, 0.15);
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 215, 0, 0.1);
+    }
+
+        .gold-rate-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .rate-karat {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #b8860b;
+        margin-bottom: 10px;
+    }
+
+    .rate-details {
+        display: flex;
+        justify-content: space-around;
+        gap: 10px;
+    }
+
+    .rate-buy, .rate-sell {
+        flex: 1;
+    }
+
+    .rate-label {
+        font-size: 0.7rem;
+        color: #8a7a5a;
+        margin-bottom: 3px;
+    }
+
+    .rate-value {
+        font-weight: 700;
+        color: #4a3b1a;
+    }
+
+    .rate-change {
+        font-size: 0.8rem;
+        margin-top: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+    }
+
+        .rate-change.text-success {
+            color: #22c55e;
+        }
+
+        .rate-change.text-danger {
+            color: #dc3545;
+        }
+
+    /* Summary Cards */
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+    .summary-card {
+        background: linear-gradient(145deg, #ffffff, #fff9f0);
+        border-radius: 25px;
+        padding: 20px;
+        box-shadow: 0 15px 35px rgba(184, 134, 11, 0.15);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        transition: all 0.3s ease;
+    }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .summary-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(145deg, #b8860b, #daa520);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.8rem;
+    }
+
+    .summary-info h3 {
+        font-size: 0.9rem;
+        color: #8a7a5a;
+        margin: 0 0 5px 0;
+    }
+
+    .summary-info .amount {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #4a3b1a;
+    }
+
+    .summary-info .small-text {
+        font-size: 0.8rem;
+        color: #b8860b;
+    }
+
+    /* Action Buttons */
+    .action-buttons-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .action-button {
+        background: white;
+        border: none;
+        border-radius: 25px;
+        padding: 20px;
+        box-shadow: 0 15px 35px rgba(184, 134, 11, 0.15);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+        .action-button.sell:hover {
+            background: linear-gradient(145deg, #b8860b, #daa520);
+            transform: translateY(-5px);
+        }
+
+        .action-button.buy:hover {
+            background: linear-gradient(145deg, #4a3b1a, #6b5a2e);
+            transform: translateY(-5px);
+        }
+
+        .action-button:hover .btn-icon,
+        .action-button:hover .btn-title,
+        .action-button:hover .btn-desc {
+            color: white;
+        }
+
+    .btn-icon {
+        font-size: 2.5rem;
+        color: #b8860b;
+        transition: color 0.3s ease;
+    }
+
+    .btn-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #4a3b1a;
+        transition: color 0.3s ease;
+    }
+
+    .btn-desc {
+        font-size: 0.8rem;
+        color: #8a7a5a;
+        transition: color 0.3s ease;
+    }
+
+    /* Filter Section */
+    .filter-section {
+        background: white;
+        border-radius: 25px;
+        padding: 20px;
+        box-shadow: 0 15px 35px rgba(184, 134, 11, 0.15);
+        margin-bottom: 25px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .filter-group {
+        flex: 1;
+        min-width: 150px;
+    }
+
+    .filter-label {
+        font-size: 0.8rem;
+        color: #8a7a5a;
+        margin-bottom: 5px;
+    }
+
+    .filter-select, .filter-input {
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid #f0e8d8;
+        border-radius: 15px;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+
+        .filter-select:focus, .filter-input:focus {
+            border-color: #b8860b;
+            box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
+        }
+
+    .filter-button {
+        background: #b8860b;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 20px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+        .filter-button:hover {
+            background: #daa520;
+            transform: translateY(-2px);
+        }
+
+    /* Transactions Table */
+    .transactions-container {
+        background: white;
+        border-radius: 25px;
+        padding: 20px;
+        box-shadow: 0 15px 35px rgba(184, 134, 11, 0.15);
+        overflow-x: auto;
+    }
+
+    .transactions-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .transactions-table th {
+            text-align: left;
+            padding: 15px 10px;
+            color: #8a7a5a;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-bottom: 2px solid #f0e8d8;
+        }
+
+        .transactions-table td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #f0e8d8;
+            color: #4a3b1a;
+        }
+
+    .transaction-type {
+        display: inline-block;
+        padding: 5px 15px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .type-sell {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    .type-buy {
+        background: #fff3e0;
+        color: #b8860b;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 5px 15px;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .status-completed {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    .status-pending {
+        background: #fff3e0;
+        color: #b8860b;
+    }
+
+    .status-cancelled {
+        background: #ffebee;
+        color: #c62828;
+    }
+
+    .action-icons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .action-icon {
+        width: 35px;
+        height: 35px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f5e7c8;
+        color: #b8860b;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+        .action-icon:hover {
+            background: #b8860b;
+            color: white;
+            transform: scale(1.1);
+        }
+
+    /* Chart Container */
+    .chart-container {
+        background: white;
+        border-radius: 25px;
+        padding: 20px;
+        box-shadow: 0 15px 35px rgba(184, 134, 11, 0.15);
+        margin-top: 25px;
+        height: 300px;
+    }
+
+    /* Modal Styles */
+    .modal-content {
+        border-radius: 30px;
+        border: none;
+    }
+
+    .modal-header {
+        background: linear-gradient(145deg, #b8860b, #daa520);
+        color: white;
+        border-radius: 30px 30px 0 0;
+        padding: 20px 30px;
+        border: none;
+    }
+
+        .modal-header.buy-header {
+            background: linear-gradient(145deg, #4a3b1a, #6b5a2e);
+        }
+
+    .modal-body {
+        padding: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #4a3b1a;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .form-control, .form-select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #f0e8d8;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #b8860b;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
+        }
+
+    .input-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .input-group .form-control {
+            flex: 1;
+        }
+
+    .input-group-text {
+        background: #f5e7c8;
+        padding: 12px 15px;
+        border-radius: 15px;
+        color: #b8860b;
+        font-weight: 600;
+    }
+
+    .total-amount {
+        background: linear-gradient(145deg, #f5e7c8, #fff4e0);
+        padding: 20px;
+        border-radius: 20px;
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .total-label {
+        font-size: 0.9rem;
+        color: #8a7a5a;
+        margin-bottom: 5px;
+    }
+
+    .total-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #b8860b;
+    }
+
+    .btn-modal {
+        padding: 12px 30px;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+    .btn-modal-primary {
+        background: linear-gradient(145deg, #b8860b, #daa520);
+        color: white;
+    }
+
+        .btn-modal-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(184, 134, 11, 0.3);
+            color: white;
+        }
+
+    .btn-modal-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+        .btn-modal-secondary:hover {
+            background: #5a6268;
+            color: white;
+        }
+
+    .btn-modal-danger {
+        background: #dc3545;
+        color: white;
+    }
+
+        .btn-modal-danger:hover {
+            background: #c82333;
+            color: white;
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .action-buttons-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .filter-section {
+            flex-direction: column;
+        }
+
+        .filter-group {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="buysell-container">
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="notification-toast" id="notificationToast">
+        <div class="notification-icon" id="notificationIcon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="notification-content">
+            <div class="notification-title" id="notificationTitle">সফল!</div>
+            <div class="notification-message" id="notificationMessage"></div>
+        </div>
+        <div class="close-notification" onclick="hideNotification()">
+            <i class="fas fa-times"></i>
+        </div>
+    </div>
+
+    <!-- Page Title -->
+    <h2 class="menu-title" style="margin-top: 0;">
+        <i class="fas fa-exchange-alt" style="color: #b8860b;"></i>
+        ক্রয় ও বিক্রয় ব্যবস্থাপনা
+    </h2>
+
+    <!-- Gold Rates -->
+    <div class="gold-rates-grid" id="goldRatesGrid"></div>
+
+    <!-- Summary Cards -->
+    <div class="summary-grid" id="summaryGrid"></div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons-grid">
+        <button class="action-button sell" onclick="openSellModal()">
+            <i class="fas fa-hand-holding-usd btn-icon"></i>
+            <span class="btn-title">বিক্রয় করুন</span>
+            <span class="btn-desc">গ্রাহককে পণ্য বিক্রয়</span>
+        </button>
+        <button class="action-button buy" onclick="openBuyModal()">
+            <i class="fas fa-shopping-cart btn-icon"></i>
+            <span class="btn-title">ক্রয় করুন</span>
+            <span class="btn-desc">গ্রাহকের কাছ থেকে ক্রয়</span>
+        </button>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="filter-section">
+        <div class="filter-group">
+            <div class="filter-label">লেনদেন টাইপ</div>
+            <select class="filter-select" id="transactionTypeFilter">
+                <option value="সব">সব লেনদেন</option>
+                <option value="বিক্রয়">শুধু বিক্রয়</option>
+                <option value="ক্রয়">শুধু ক্রয়</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <div class="filter-label">শুরুর তারিখ</div>
+            <input type="date" class="filter-input" id="fromDateFilter">
+        </div>
+        <div class="filter-group">
+            <div class="filter-label">শেষ তারিখ</div>
+            <input type="date" class="filter-input" id="toDateFilter">
+        </div>
+        <button class="filter-button" onclick="applyFilters()">
+            <i class="fas fa-search"></i> ফিল্টার
+        </button>
+        <button class="filter-button" style="background: #6c757d;" onclick="resetFilters()">
+            <i class="fas fa-redo"></i> রিসেট
+        </button>
+    </div>
+
+    <!-- Transactions Table -->
+    <div class="transactions-container">
+        <table class="transactions-table">
+            <thead>
+                <tr>
+                    <th>তারিখ</th>
+                    <th>গ্রাহক</th>
+                    <th>টাইপ</th>
+                    <th>পণ্য</th>
+                    <th>ওজন</th>
+                    <th>কারেট</th>
+                    <th>মোট টাকা</th>
+                    <th>পেমেন্ট</th>
+                    <th>স্ট্যাটাস</th>
+                    <th>অ্যাকশন</th>
+                </tr>
+            </thead>
+            <tbody id="transactionsTableBody">
+                <!-- Data will be loaded here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Chart Container -->
+    <div class="chart-container">
+        <canvas id="transactionChart"></canvas>
+    </div>
+</div>
+
+<!-- Sell Modal -->
+<div class="modal fade" id="sellModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    নতুন বিক্রয়
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="sellForm">
+                    <input type="hidden" id="sellId" value="0">
+                    <input type="hidden" id="sellType" value="বিক্রয়">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">গ্রাহকের নাম *</label>
+                                <select class="form-select" id="sellCustomer" required>
+                                    <option value="">গ্রাহক নির্বাচন করুন</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">পণ্যের ধরণ *</label>
+                                <input type="text" class="form-control" id="sellProduct"
+                                       placeholder="যেমন: সোনার চেইন" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">ওজন (গ্রাম) *</label>
+                                <input type="number" step="0.1" class="form-control"
+                                       id="sellWeight" oninput="calculateSellTotal()" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">কারেট *</label>
+                                <select class="form-select" id="sellKarat" onchange="updateSellRate()">
+                                    <option value="24K">24K</option>
+                                    <option value="22K" selected>22K</option>
+                                    <option value="21K">21K</option>
+                                    <option value="18K">18K</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">দর (প্রতি গ্রাম) *</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control"
+                                           id="sellRate" oninput="calculateSellTotal()" required>
+                                    <span class="input-group-text">৳</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="total-amount">
+                        <div class="total-label">মোট মূল্য</div>
+                        <div class="total-value" id="sellTotal">৳ 0</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">পেমেন্ট পদ্ধতি</label>
+                                <select class="form-select" id="sellPayment">
+                                    <option value="নগদ">নগদ</option>
+                                    <option value="বিকাশ">বিকাশ</option>
+                                    <option value="ক্রেডিট কার্ড">ক্রেডিট কার্ড</option>
+                                    <option value="ব্যাংক">ব্যাংক</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">নোটস</label>
+                                <input type="text" class="form-control" id="sellNotes"
+                                       placeholder="কোন নোটস থাকলে লিখুন">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-modal btn-modal-primary" onclick="saveTransaction()">
+                    <i class="fas fa-save"></i> বিক্রয় সম্পন্ন করুন
+                </button>
+                <button type="button" class="btn btn-modal btn-modal-secondary" data-bs-dismiss="modal">
+                    বাতিল
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Buy Modal -->
+<div class="modal fade" id="buyModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header buy-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-shopping-cart"></i>
+                    নতুন ক্রয়
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="buyForm">
+                    <input type="hidden" id="buyId" value="0">
+                    <input type="hidden" id="buyType" value="ক্রয়">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">গ্রাহকের নাম *</label>
+                                <select class="form-select" id="buyCustomer" required>
+                                    <option value="">গ্রাহক নির্বাচন করুন</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">পণ্যের ধরণ *</label>
+                                <input type="text" class="form-control" id="buyProduct"
+                                       placeholder="যেমন: পুরনো গহনা" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">ওজন (গ্রাম) *</label>
+                                <input type="number" step="0.1" class="form-control"
+                                       id="buyWeight" oninput="calculateBuyTotal()" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">কারেট *</label>
+                                <select class="form-select" id="buyKarat" onchange="updateBuyRate()">
+                                    <option value="24K">24K</option>
+                                    <option value="22K" selected>22K</option>
+                                    <option value="21K">21K</option>
+                                    <option value="18K">18K</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">দর (প্রতি গ্রাম) *</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control"
+                                           id="buyRate" oninput="calculateBuyTotal()" required>
+                                    <span class="input-group-text">৳</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="total-amount">
+                        <div class="total-label">মোট মূল্য</div>
+                        <div class="total-value" id="buyTotal">৳ 0</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">পেমেন্ট পদ্ধতি</label>
+                                <select class="form-select" id="buyPayment">
+                                    <option value="নগদ">নগদ</option>
+                                    <option value="বিকাশ">বিকাশ</option>
+                                    <option value="ক্রেডিট কার্ড">ক্রেডিট কার্ড</option>
+                                    <option value="ব্যাংক">ব্যাংক</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">নোটস</label>
+                                <input type="text" class="form-control" id="buyNotes"
+                                       placeholder="কোন নোটস থাকলে লিখুন">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-modal btn-modal-primary" onclick="saveTransaction()">
+                    <i class="fas fa-save"></i> ক্রয় সম্পন্ন করুন
+                </button>
+                <button type="button" class="btn btn-modal btn-modal-secondary" data-bs-dismiss="modal">
+                    বাতিল
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #dc3545;">
+                <h5 class="modal-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    নিশ্চিতকরণ
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <i class="fas fa-trash" style="font-size: 4rem; color: #dc3545; margin-bottom: 20px;"></i>
+                <h5>আপনি কি এই লেনদেনটি ডিলিট করতে চান?</h5>
+                <p class="text-muted">এই কাজটি পূর্বাবস্থায় ফিরিয়ে আনা যাবে না।</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-modal btn-modal-danger" id="confirmDeleteBtn">
+                    <i class="fas fa-trash"></i> ডিলিট করুন
+                </button>
+                <button type="button" class="btn btn-modal btn-modal-secondary" data-bs-dismiss="modal">
+                    বাতিল
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize variables
+            window.transactions = [];
+            window.goldRates = [];
+            window.customers = [];
+            window.currentTransactionId = null;
+            window.chart = null;
+
+            // Modal instances
+            window.sellModal = new bootstrap.Modal(document.getElementById('sellModal'));
+            window.buyModal = new bootstrap.Modal(document.getElementById('buyModal'));
+            window.deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+
+            // Load initial data
+            loadGoldRates();
+            loadTransactions();
+            loadCustomers();
+            loadSummary();
+            loadChartData();
+        });
+
+        // ========== LOAD FUNCTIONS ==========
+
+        function loadGoldRates() {
+            $.ajax({
+                url: '@Url.Action("GetGoldRates", "BuySell")',
+                type: 'GET',
+                success: function(data) {
+                    window.goldRates = data;
+                    renderGoldRates();
+                },
+                error: function(xhr) {
+                    console.error("Error loading gold rates:", xhr);
+                    showNotification('error', 'দুঃখিত!', 'গোল্ড রেট লোড করতে সমস্যা হয়েছে।');
+                }
+            });
+        }
+
+        function loadTransactions(type = '', fromDate = '', toDate = '') {
+            showLoading();
+            $.ajax({
+                url: '@Url.Action("GetTransactions", "BuySell")',
+                type: 'GET',
+                data: { type: type, fromDate: fromDate, toDate: toDate },
+                success: function(data) {
+                    window.transactions = data;
+                    renderTransactions();
+                    hideLoading();
+                },
+                error: function(xhr) {
+                    console.error("Error loading transactions:", xhr);
+                    hideLoading();
+                    showNotification('error', 'দুঃখিত!', 'লেনদেন লোড করতে সমস্যা হয়েছে।');
+                }
+            });
+        }
+
+        function loadCustomers() {
+            $.ajax({
+                url: '@Url.Action("GetCustomers", "BuySell")',
+                type: 'GET',
+                success: function(data) {
+                    window.customers = data;
+                    let options = '<option value="">গ্রাহক নির্বাচন করুন</option>';
+                    data.forEach(c => {
+                        options += `<option value="${c.id}">${c.name}</option>`;
+                    });
+                    $('#sellCustomer').html(options);
+                    $('#buyCustomer').html(options);
+                },
+                error: function(xhr) {
+                    console.error("Error loading customers:", xhr);
+                }
+            });
+        }
+
+        function loadSummary() {
+            $.ajax({
+                url: '@Url.Action("GetTodaySummary", "BuySell")',
+                type: 'GET',
+                success: function(data) {
+                    renderSummary(data);
+                },
+                error: function(xhr) {
+                    console.error("Error loading summary:", xhr);
+                }
+            });
+        }
+
+        function loadChartData() {
+            $.ajax({
+                url: '@Url.Action("GetChartData", "BuySell")',
+                type: 'GET',
+                success: function(data) {
+                    renderChart(data);
+                },
+                error: function(xhr) {
+                    console.error("Error loading chart data:", xhr);
+                }
+            });
+        }
+
+        // ========== RENDER FUNCTIONS ==========
+
+        function renderGoldRates() {
+            let html = '';
+            window.goldRates.forEach(rate => {
+                const changeClass = rate.change >= 0 ? 'text-success' : 'text-danger';
+                const changeIcon = rate.change >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
+
+                html += `
+                    <div class="gold-rate-card">
+                        <div class="rate-karat">${rate.karat}</div>
+                        <div class="rate-details">
+                            <div class="rate-buy">
+                                <div class="rate-label">ক্রয়</div>
+                                <div class="rate-value">${rate.buyingRate}</div>
+                            </div>
+                            <div class="rate-sell">
+                                <div class="rate-label">বিক্রয়</div>
+                                <div class="rate-value">${rate.sellingRate}</div>
+                            </div>
+                        </div>
+                        <div class="rate-change ${changeClass}">
+                            <i class="fas ${changeIcon}"></i>
+                            ${Math.abs(rate.change)} টাকা
+                        </div>
+                    </div>
+                `;
+            });
+            $('#goldRatesGrid').html(html);
+        }
+
+        function renderTransactions() {
+            if (!window.transactions || window.transactions.length === 0) {
+                $('#transactionsTableBody').html(`
+                    <tr>
+                        <td colspan="10" style="text-align: center; padding: 50px;">
+                            <i class="fas fa-exchange-alt" style="font-size: 3rem; color: #b8860b; opacity: 0.5;"></i>
+                            <p style="margin-top: 15px; color: #8a7a5a;">কোন লেনদেন পাওয়া যায়নি</p>
+                        </td>
+                    </tr>
+                `);
+                return;
+            }
+
+            let html = '';
+            window.transactions.forEach(t => {
+                const typeClass = t.type === 'বিক্রয়' ? 'type-sell' : 'type-buy';
+                const statusClass = t.status === 'সম্পন্ন' ? 'status-completed' :
+                                   t.status === 'পেন্ডিং' ? 'status-pending' : 'status-cancelled';
+
+                const date = new Date(t.date);
+                const formattedDate = date.toLocaleDateString('bn-BD');
+
+                html += `
+                    <tr>
+                        <td>${formattedDate}</td>
+                        <td><strong>${t.customerName}</strong></td>
+                        <td>
+                            <span class="transaction-type ${typeClass}">
+                                ${t.type}
+                            </span>
+                        </td>
+                        <td>${t.productType}</td>
+                        <td>${t.weight} গ্রাম</td>
+                        <td>${t.karat}</td>
+                        <td><strong>৳ ${t.totalAmount.toLocaleString()}</strong></td>
+                        <td>${t.paymentMethod}</td>
+                        <td>
+                            <span class="status-badge ${statusClass}">
+                                ${t.status}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-icons">
+                                <button class="action-icon" onclick="printReceipt(${t.id})" title="রশিদ প্রিন্ট">
+                                    <i class="fas fa-print"></i>
+                                </button>
+                                <button class="action-icon" onclick="openEditModal(${t.id})" title="এডিট">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-icon" onclick="openDeleteModal(${t.id})" title="ডিলিট">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            $('#transactionsTableBody').html(html);
+        }
+
+        function renderSummary(data) {
+            const html = `
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="summary-info">
+                        <h3>আজকের বিক্রয়</h3>
+                        <div class="amount">৳ ${data.totalSell.toLocaleString()}</div>
+                        <div class="small-text">${data.sellCount} টি লেনদেন</div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="summary-info">
+                        <h3>আজকের ক্রয়</h3>
+                        <div class="amount">৳ ${data.totalBuy.toLocaleString()}</div>
+                        <div class="small-text">${data.buyCount} টি লেনদেন</div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="summary-info">
+                        <h3>পেন্ডিং লেনদেন</h3>
+                        <div class="amount">${data.pendingCount}</div>
+                        <div class="small-text">টি অপেক্ষমাণ</div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="summary-info">
+                        <h3>মোট লেনদেন</h3>
+                        <div class="amount">${data.totalTransactions}</div>
+                        <div class="small-text">টি আজ</div>
+                    </div>
+                </div>
+            `;
+            $('#summaryGrid').html(html);
+        }
+
+        function renderChart(data) {
+            const ctx = document.getElementById('transactionChart').getContext('2d');
+
+            if (window.chart) {
+                window.chart.destroy();
+            }
+
+            window.chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map(d => d.date),
+                    datasets: [
+                        {
+                            label: 'বিক্রয়',
+                            data: data.map(d => d.sell),
+                            borderColor: '#22c55e',
+                            backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'ক্রয়',
+                            data: data.map(d => d.buy),
+                            borderColor: '#b8860b',
+                            backgroundColor: 'rgba(184, 134, 11, 0.1)',
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'গত ৭ দিনের লেনদেন'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '৳ ' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ========== MODAL FUNCTIONS ==========
+
+        window.openSellModal = function() {
+            $('#sellId').val('0');
+            $('#sellProduct').val('');
+            $('#sellWeight').val('');
+            $('#sellKarat').val('22K');
+            $('#sellNotes').val('');
+            $('#sellCustomer').val('');
+            updateSellRate();
+            calculateSellTotal();
+            window.sellModal.show();
+        }
+
+        window.openBuyModal = function() {
+            $('#buyId').val('0');
+            $('#buyProduct').val('');
+            $('#buyWeight').val('');
+            $('#buyKarat').val('22K');
+            $('#buyNotes').val('');
+            $('#buyCustomer').val('');
+            updateBuyRate();
+            calculateBuyTotal();
+            window.buyModal.show();
+        }
+
+        window.openEditModal = function(id) {
+            const transaction = window.transactions.find(t => t.id === id);
+            if (!transaction) return;
+
+            if (transaction.type === 'বিক্রয়') {
+                $('#sellId').val(transaction.id);
+                $('#sellCustomer').val(transaction.customerId);
+                $('#sellProduct').val(transaction.productType);
+                $('#sellWeight').val(transaction.weight);
+                $('#sellKarat').val(transaction.karat);
+                $('#sellRate').val(transaction.price);
+                $('#sellPayment').val(transaction.paymentMethod);
+                $('#sellNotes').val(transaction.notes || '');
+                calculateSellTotal();
+                window.sellModal.show();
+            } else {
+                $('#buyId').val(transaction.id);
+                $('#buyCustomer').val(transaction.customerId);
+                $('#buyProduct').val(transaction.productType);
+                $('#buyWeight').val(transaction.weight);
+                $('#buyKarat').val(transaction.karat);
+                $('#buyRate').val(transaction.price);
+                $('#buyPayment').val(transaction.paymentMethod);
+                $('#buyNotes').val(transaction.notes || '');
+                calculateBuyTotal();
+                window.buyModal.show();
+            }
+        }
+
+        window.openDeleteModal = function(id) {
+            window.currentTransactionId = id;
+            window.deleteModal.show();
+        }
+
+        // ========== CALCULATION FUNCTIONS ==========
+
+        window.updateSellRate = function() {
+            const karat = $('#sellKarat').val();
+            const rate = window.goldRates.find(r => r.karat === karat);
+            if (rate) {
+                $('#sellRate').val(rate.sellingRate);
+                calculateSellTotal();
+            }
+        }
+
+        window.updateBuyRate = function() {
+            const karat = $('#buyKarat').val();
+            const rate = window.goldRates.find(r => r.karat === karat);
+            if (rate) {
+                $('#buyRate').val(rate.buyingRate);
+                calculateBuyTotal();
+            }
+        }
+
+        window.calculateSellTotal = function() {
+            const weight = parseFloat($('#sellWeight').val()) || 0;
+            const rate = parseFloat($('#sellRate').val()) || 0;
+            const total = weight * rate;
+            $('#sellTotal').text('৳ ' + total.toLocaleString());
+        }
+
+        window.calculateBuyTotal = function() {
+            const weight = parseFloat($('#buyWeight').val()) || 0;
+            const rate = parseFloat($('#buyRate').val()) || 0;
+            const total = weight * rate;
+            $('#buyTotal').text('৳ ' + total.toLocaleString());
+        }
+
+        // ========== SAVE FUNCTION ==========
+
+        window.saveTransaction = function() {
+            const isSell = $('#sellModal').hasClass('show');
+
+            const transaction = {
+                id: isSell ? parseInt($('#sellId').val()) : parseInt($('#buyId').val()),
+                type: isSell ? 'বিক্রয়' : 'ক্রয়',
+                customerId: isSell ? parseInt($('#sellCustomer').val()) : parseInt($('#buyCustomer').val()),
+                customerName: isSell ?
+                    window.customers.find(c => c.id === parseInt($('#sellCustomer').val()))?.name :
+                    window.customers.find(c => c.id === parseInt($('#buyCustomer').val()))?.name,
+                productType: isSell ? $('#sellProduct').val() : $('#buyProduct').val(),
+                weight: parseFloat(isSell ? $('#sellWeight').val() : $('#buyWeight').val()),
+                karat: isSell ? $('#sellKarat').val() : $('#buyKarat').val(),
+                price: parseFloat(isSell ? $('#sellRate').val() : $('#buyRate').val()),
+                paymentMethod: isSell ? $('#sellPayment').val() : $('#buyPayment').val(),
+                status: 'সম্পন্ন',
+                notes: isSell ? $('#sellNotes').val() : $('#buyNotes').val()
+            };
+
+            // Validation
+            if (!transaction.customerId) {
+                showNotification('error', 'দুঃখিত!', 'গ্রাহক নির্বাচন করুন।');
+                return;
+            }
+            if (!transaction.productType) {
+                showNotification('error', 'দুঃখিত!', 'পণ্যের ধরণ লিখুন।');
+                return;
+            }
+            if (!transaction.weight || transaction.weight <= 0) {
+                showNotification('error', 'দুঃখিত!', 'সঠিক ওজন দিন।');
+                return;
+            }
+
+            showLoading();
+
+            $.ajax({
+                url: '@Url.Action("AddTransaction", "BuySell")',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(transaction),
+                success: function(response) {
+                    if (response.success) {
+                        if (isSell) {
+                            window.sellModal.hide();
+                        } else {
+                            window.buyModal.hide();
+                        }
+                        loadTransactions();
+                        loadSummary();
+                        loadChartData();
+                        showNotification('success', 'সফল!', response.message);
+                    }
+                    hideLoading();
+                },
+                error: function(xhr) {
+                    console.error("Error saving transaction:", xhr);
+                    hideLoading();
+                    showNotification('error', 'দুঃখিত!', 'লেনদেন সংরক্ষণ করতে সমস্যা হয়েছে।');
+                }
+            });
+        }
+
+        // ========== DELETE FUNCTION ==========
+
+        $('#confirmDeleteBtn').click(function() {
+            if (!window.currentTransactionId) return;
+
+            showLoading();
+            $.ajax({
+                url: '@Url.Action("DeleteTransaction", "BuySell")',
+                type: 'POST',
+                data: { id: window.currentTransactionId },
+                success: function(response) {
+                    if (response.success) {
+                        window.deleteModal.hide();
+                        loadTransactions();
+                        loadSummary();
+                        loadChartData();
+                        showNotification('success', 'সফল!', response.message);
+                    }
+                    hideLoading();
+                },
+                error: function(xhr) {
+                    console.error("Error deleting transaction:", xhr);
+                    hideLoading();
+                    showNotification('error', 'দুঃখিত!', 'লেনদেন ডিলিট করতে সমস্যা হয়েছে।');
+                }
+            });
+        });
+
+        // ========== FILTER FUNCTIONS ==========
+
+        window.applyFilters = function() {
+            const type = $('#transactionTypeFilter').val();
+            const fromDate = $('#fromDateFilter').val();
+            const toDate = $('#toDateFilter').val();
+            loadTransactions(type, fromDate, toDate);
+        }
+
+        window.resetFilters = function() {
+            $('#transactionTypeFilter').val('সব');
+            $('#fromDateFilter').val('');
+            $('#toDateFilter').val('');
+            loadTransactions();
+        }
+
+        // ========== PRINT FUNCTION ==========
+
+        window.printReceipt = function(id) {
+            const transaction = window.transactions.find(t => t.id === id);
+            if (!transaction) return;
+
+            const printWindow = window.open('', '_blank');
+            const date = new Date(transaction.date);
+            const formattedDate = date.toLocaleString('bn-BD');
+
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>রশিদ #${transaction.id}</title>
+                    <style>
+                        body { font-family: 'SolaimanLipi', Arial, sans-serif; padding: 30px; }
+                        .receipt { max-width: 400px; margin: 0 auto; }
+                        .header { text-align: center; margin-bottom: 30px; }
+                        .title { font-size: 24px; font-weight: bold; color: #b8860b; }
+                        .info { margin: 20px 0; }
+                        .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #ccc; }
+                        .total { font-size: 18px; font-weight: bold; margin-top: 20px; }
+                        .footer { text-align: center; margin-top: 40px; color: #666; }
+                    </style>
+                </head>
+                <body>
+                    <div class="receipt">
+                        <div class="header">
+                            <div class="title">গোল্ড বিজনেস ম্যানেজার</div>
+                            <div>${formattedDate}</div>
+                        </div>
+
+                        <div class="info">
+                            <div class="row"><span>রশিদ নং</span> <span>#${transaction.id}</span></div>
+                            <div class="row"><span>গ্রাহক</span> <span>${transaction.customerName}</span></div>
+                            <div class="row"><span>লেনদেন</span> <span>${transaction.type}</span></div>
+                            <div class="row"><span>পণ্য</span> <span>${transaction.productType}</span></div>
+                            <div class="row"><span>ওজন</span> <span>${transaction.weight} গ্রাম</span></div>
+                            <div class="row"><span>কারেট</span> <span>${transaction.karat}</span></div>
+                            <div class="row"><span>দর</span> <span>৳ ${transaction.price}/গ্রাম</span></div>
+                            <div class="row total"><span>মোট</span> <span>৳ ${transaction.totalAmount.toLocaleString()}</span></div>
+                            <div class="row"><span>পেমেন্ট</span> <span>${transaction.paymentMethod}</span></div>
+                        </div>
+
+                        <div class="footer">
+                            <p>ধন্যবাদান্তে<br>গোল্ড বিজনেস ম্যানেজার</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // ========== UTILITY FUNCTIONS ==========
+
+        function showLoading() {
+            $('#loadingOverlay').fadeIn(300);
+        }
+
+        function hideLoading() {
+            $('#loadingOverlay').fadeOut(300);
+        }
+
+        window.showNotification = function(type, title, message) {
+            const toast = $('#notificationToast');
+            const icon = $('#notificationIcon');
+            const titleEl = $('#notificationTitle');
+            const messageEl = $('#notificationMessage');
+
+            toast.removeClass('success error');
+            icon.removeClass('success error');
+
+            if (type === 'success') {
+                toast.addClass('success');
+                icon.addClass('success');
+                icon.html('<i class="fas fa-check-circle"></i>');
+            } else {
+                toast.addClass('error');
+                icon.addClass('error');
+                icon.html('<i class="fas fa-exclamation-circle"></i>');
+            }
+
+            titleEl.text(title);
+            messageEl.text(message);
+
+            toast.fadeIn(300);
+
+            setTimeout(() => {
+                hideNotification();
+            }, 5000);
+        }
+
+        window.hideNotification = function() {
+            $('#notificationToast').fadeOut(300);
+        }
+    </script>
+}
