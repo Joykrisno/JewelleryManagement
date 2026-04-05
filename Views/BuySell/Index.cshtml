@@ -87,7 +87,7 @@
         grid-template-columns: repeat(5, 1fr);
         gap: 8px;
         margin-top: 8px;
-        max-height: 200px;
+        max-height: 300px;
         overflow-y: auto;
     }
 
@@ -107,22 +107,43 @@
         }
 
             .rate-item.active .rate-karat,
-            .rate-item.active .rate-value {
+            .rate-item.active .rate-value input {
                 color: white;
+                background: transparent;
+                border-color: white;
             }
 
     .rate-karat {
         font-size: 12px;
         font-weight: 600;
         color: #1a1a2e;
+        margin-bottom: 6px;
     }
 
     .rate-value {
         font-size: 12px;
         font-weight: 700;
-        color: #b8860b;
         margin-top: 4px;
     }
+
+        .rate-value input {
+            width: 100%;
+            padding: 6px 4px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            background: white;
+            color: #b8860b;
+            font-family: inherit;
+        }
+
+            .rate-value input:focus {
+                outline: none;
+                border-color: #b8860b;
+                box-shadow: 0 0 0 2px rgba(184, 134, 11, 0.1);
+            }
 
     /* Form Card */
     .form-card {
@@ -195,80 +216,183 @@
             box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
         }
 
-    /* Weight Calculator */
+    /* Weight Calculator - New Design */
     .weight-calculator {
-        background: #f8f9fa;
-        border-radius: 20px;
-        padding: 16px;
+        background: linear-gradient(135deg, #fff9f0, #fff5e8);
+        border-radius: 24px;
+        padding: 20px;
         margin-bottom: 20px;
+        border: 1px solid #ffe0b3;
     }
 
     .calc-title {
-        font-size: 13px;
-        color: #666;
-        margin-bottom: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a1a2e;
+        margin-bottom: 20px;
         text-align: center;
-        font-weight: 500;
+        background: linear-gradient(135deg, #b8860b, #daa520);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        display: inline-block;
+        width: 100%;
     }
 
-    .calc-buttons {
+    /* 4-Column Weight Grid - New Design */
+    .weight-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .weight-item {
+        text-align: center;
+        background: white;
+        border-radius: 20px;
+        padding: 12px 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        transition: all 0.2s;
+        border: 1px solid #f0e0c0;
+    }
+
+        .weight-item:focus-within {
+            border-color: #b8860b;
+            box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
+        }
+
+    .weight-label {
+        font-size: 14px;
+        font-weight: 700;
+        color: #b8860b;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+        .weight-label small {
+            font-size: 10px;
+            font-weight: 400;
+            color: #999;
+            display: block;
+            margin-top: 2px;
+        }
+
+    .weight-input {
+        width: 100%;
+        text-align: center;
+        border: none;
+        padding: 10px 0;
+        font-size: 18px;
+        font-weight: 700;
+        background: transparent;
+        color: #1a1a2e;
+        font-family: inherit;
+    }
+
+        .weight-input:focus {
+            outline: none;
+            color: #b8860b;
+        }
+
+        .weight-input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+            .weight-input[type="number"]::-webkit-inner-spin-button,
+            .weight-input[type="number"]::-webkit-outer-spin-button {
+                opacity: 0.5;
+            }
+
+    .total-weight {
+        margin-top: 16px;
+        padding: 14px;
+        background: linear-gradient(135deg, #b8860b, #daa520);
+        border-radius: 20px;
+        text-align: center;
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .info-text {
+        font-size: 11px;
+        color: #b8860b;
+        text-align: center;
+        margin-top: 12px;
+        background: rgba(184, 134, 11, 0.1);
+        padding: 8px;
+        border-radius: 16px;
+    }
+
+    /* Rate Display Cards */
+    .rate-cards {
         display: flex;
         gap: 12px;
         margin-bottom: 16px;
     }
 
-    .calc-btn {
+    .rate-card {
         flex: 1;
-        padding: 12px;
-        background: white;
-        border: 1px solid #e0e0e0;
-        border-radius: 14px;
-        font-size: 14px;
-        font-weight: 600;
-        color: #1a1a2e;
-        cursor: pointer;
-        transition: all 0.2s;
+        background: linear-gradient(135deg, #fff8f0, #fff4e6);
+        border-radius: 16px;
+        padding: 12px 8px;
         text-align: center;
+        border: 1px solid #ffe0b3;
     }
 
-        .calc-btn.active {
-            background: linear-gradient(135deg, #b8860b, #daa520);
-            border-color: transparent;
-            color: white;
+    .rate-card-title {
+        font-size: 11px;
+        color: #b8860b;
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+
+    .rate-card-value {
+        font-size: 16px;
+        font-weight: 700;
+        color: #b8860b;
+    }
+
+    .rate-card-sub {
+        font-size: 10px;
+        color: #999;
+        margin-top: 4px;
+    }
+
+    /* Editable Rate */
+    .editable-rate {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #f8f9fa;
+        border-radius: 16px;
+        padding: 8px 16px;
+    }
+
+        .editable-rate span {
+            color: #b8860b;
+            font-weight: 600;
+            font-size: 18px;
         }
 
-    .calc-input-group {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-    }
+        .editable-rate input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 700;
+            text-align: right;
+            background: white;
+            color: #1a1a2e;
+        }
 
-    .calc-input {
-        flex: 1;
-        padding: 12px;
-        border: 1px solid #e0e0e0;
-        border-radius: 14px;
-        font-size: 14px;
-        text-align: center;
-    }
-
-    .calc-unit {
-        font-size: 14px;
-        color: #666;
-        min-width: 45px;
-        font-weight: 500;
-    }
-
-    .total-weight {
-        margin-top: 12px;
-        padding: 12px;
-        background: white;
-        border-radius: 14px;
-        text-align: center;
-        font-size: 14px;
-        color: #b8860b;
-        font-weight: 600;
-    }
+        .editable-rate .rate-unit {
+            color: #666;
+            font-size: 14px;
+            min-width: 45px;
+        }
 
     /* Add Button */
     .add-btn {
@@ -558,81 +682,6 @@
     .toast-notification.error {
         background: #dc3545;
     }
-
-    /* Triple Input Section */
-    .triple-weight-input {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 16px;
-        background: white;
-        padding: 12px;
-        border-radius: 20px;
-    }
-
-    .weight-box {
-        flex: 1;
-        text-align: center;
-        background: #f8f9fa;
-        border-radius: 14px;
-        padding: 8px 4px;
-    }
-
-        .weight-box label {
-            font-size: 11px;
-            color: #666;
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        .weight-box input {
-            width: 100%;
-            text-align: center;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 8px 0;
-            font-size: 14px;
-            font-weight: 600;
-            background: white;
-        }
-
-            .weight-box input:focus {
-                outline: none;
-                border-color: #b8860b;
-            }
-
-    /* Editable Rate */
-    .editable-rate {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        background: #f8f9fa;
-        border-radius: 16px;
-        padding: 8px 16px;
-    }
-
-        .editable-rate span {
-            color: #b8860b;
-            font-weight: 600;
-            font-size: 18px;
-        }
-
-        .editable-rate input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #e0e0e0;
-            border-radius: 14px;
-            font-size: 18px;
-            font-weight: 700;
-            text-align: right;
-            background: white;
-            color: #1a1a2e;
-        }
-
-        .editable-rate .rate-unit {
-            color: #666;
-            font-size: 14px;
-            min-width: 45px;
-        }
 </style>
 
 <div class="mobile-container">
@@ -647,14 +696,14 @@
         </div>
     </div>
 
-    <!-- Gold Rate -->
+    <!-- Gold Rate - Fully Editable -->
     <div class="gold-rate-card">
         <div class="rate-title">
-            <i class="fas fa-chart-line"></i>
-            আজকের সোনার দর (প্রতি ভরি)
+            <i class="fas fa-edit"></i>
+            আজকের সোনার দর (প্রতি ভরি) - নিজে বসান
         </div>
         <div class="rate-grid" id="rateGrid">
-            <!-- Rates will be loaded here -->
+            <!-- Editable rates will be loaded here -->
         </div>
     </div>
 
@@ -676,10 +725,24 @@
             আইটেম তথ্য
         </div>
 
-        <!-- Item Name -->
+        <!-- Item Name with Dropdown -->
         <div class="input-group">
             <label class="input-label">আইটেমের নাম</label>
-            <input type="text" class="input-field" id="itemName" placeholder="যেমন: সোনার চেইন, আংটি">
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <select class="custom-select" id="itemNameSelect" style="flex: 2; margin-bottom: 0;" onchange="selectItemName()">
+                    <option value="">-- নির্বাচন করুন --</option>
+                    <option value="IC">IC</option>
+                    <option value="Dubai">Dubai</option>
+                    <option value="Bangla">Bangla</option>
+                    <option value="সোনার চেইন">সোনার চেইন</option>
+                    <option value="সোনার আংটি">সোনার আংটি</option>
+                    <option value="সোনার নেকলেস">সোনার নেকলেস</option>
+                    <option value="সোনার কানের দুল">সোনার কানের দুল</option>
+                    <option value="সোনার ব্রেসলেট">সোনার ব্রেসলেট</option>
+                    <option value="সোনার মালা">সোনার মালা</option>
+                </select>
+                <input type="text" class="input-field" id="itemName" placeholder="অথবা নিজে লিখুন" style="flex: 1; margin-bottom: 0;">
+            </div>
         </div>
 
         <!-- Karat Selection -->
@@ -699,46 +762,68 @@
             </select>
         </div>
 
-        <!-- Enhanced Weight Calculator: ভরি, আনা, রতি input together -->
+        <!-- Weight Calculator - New Design with ভরি, আনা, রতি, পয়েন্ট -->
         <div class="weight-calculator">
-            <div class="calc-title">ওজন নির্ধারণ করুন (ভরি, আনা, রতি)</div>
-            <div class="triple-weight-input">
-                <div class="weight-box">
-                    <label>ভরি</label>
-                    <input type="number" step="any" id="voriInput" value="0" oninput="syncWeightFromVori()">
+            <div class="calc-title">
+                <i class="fas fa-weight-hanging"></i> ওজন নির্ধারণ করুন
+            </div>
+            <div class="weight-grid">
+                <div class="weight-item">
+                    <label class="weight-label">ভরি <small>Vori</small></label>
+                    <input type="number" step="any" class="weight-input" id="voriInput" value="0" oninput="syncWeightFromVori()">
                 </div>
-                <div class="weight-box">
-                    <label>আনা</label>
-                    <input type="number" step="any" id="anaInput" value="0" oninput="syncWeightFromAna()">
+                <div class="weight-item">
+                    <label class="weight-label">আনা <small>Ana</small></label>
+                    <input type="number" step="any" class="weight-input" id="anaInput" value="0" oninput="syncWeightFromAna()">
                 </div>
-                <div class="weight-box">
-                    <label>রতি</label>
-                    <input type="number" step="any" id="ratiInput" value="0" oninput="syncWeightFromRati()">
+                <div class="weight-item">
+                    <label class="weight-label">রতি <small>Roti</small></label>
+                    <input type="number" step="any" class="weight-input" id="ratiInput" value="0" oninput="syncWeightFromRati()">
+                </div>
+                <div class="weight-item">
+                    <label class="weight-label">পয়েন্ট <small>Point</small></label>
+                    <input type="number" step="any" class="weight-input" id="pointInput" value="0" oninput="syncWeightFromPoint()">
                 </div>
             </div>
-            <div class="total-weight" id="gramDisplay">= 0.000 গ্রাম</div>
+            <div class="total-weight" id="gramDisplay">
+                <i class="fas fa-chart-line"></i> = 0.000 গ্রাম (0.0000 ভরি)
+            </div>
+            <div class="info-text">
+                <i class="fas fa-info-circle"></i> 1 ভরি = 16 আনা | 1 আনা = 6 রতি | 1 রতি = 6 পয়েন্ট
+            </div>
         </div>
 
-        <!-- Rate per Vori (Editable) -->
+        <!-- দরের বিবরণ - Rate Details (Per Vori, Per Ana, Per Rati, Per Point) -->
+        <div class="rate-cards">
+            <div class="rate-card">
+                <div class="rate-card-title">প্রতি ভরি</div>
+                <div class="rate-card-value" id="perVoriDisplay">৳ 5,850</div>
+                <div class="rate-card-sub">(11.664 গ্রাম)</div>
+            </div>
+            <div class="rate-card">
+                <div class="rate-card-title">প্রতি আনা</div>
+                <div class="rate-card-value" id="perAnaDisplay">৳ 365.63</div>
+                <div class="rate-card-sub">(0.729 গ্রাম)</div>
+            </div>
+            <div class="rate-card">
+                <div class="rate-card-title">প্রতি রতি</div>
+                <div class="rate-card-value" id="perRatiDisplay">৳ 60.94</div>
+                <div class="rate-card-sub">(0.1215 গ্রাম)</div>
+            </div>
+            <div class="rate-card">
+                <div class="rate-card-title">প্রতি পয়োতি</div>
+                <div class="rate-card-value" id="perPointDisplay">৳ 10.16</div>
+                <div class="rate-card-sub">(0.02025 গ্রাম)</div>
+            </div>
+        </div>
+
+        <!-- দর পরিবর্তন - Edit Rate -->
         <div class="input-group">
-            <label class="input-label">দর (প্রতি ভরি)</label>
+            <label class="input-label">দর পরিবর্তন করুন (প্রতি ভরি)</label>
             <div class="editable-rate">
                 <span>৳</span>
                 <input type="number" id="voriRateInput" step="1" value="5850" oninput="updateRateFromInput()">
                 <span class="rate-unit">/ভরি</span>
-            </div>
-            <input type="hidden" id="ratePerVori">
-        </div>
-
-        <!-- Rate per Ana and Rati -->
-        <div style="display: flex; gap: 12px; margin-bottom: 16px;">
-            <div style="flex: 1; background: #f8f9fa; border-radius: 14px; padding: 10px; text-align: center;">
-                <div style="font-size: 11px; color: #666;">প্রতি আনা</div>
-                <div style="font-size: 14px; font-weight: 600; color: #b8860b;" id="anaRateDisplay">0</div>
-            </div>
-            <div style="flex: 1; background: #f8f9fa; border-radius: 14px; padding: 10px; text-align: center;">
-                <div style="font-size: 11px; color: #666;">প্রতি রতি</div>
-                <div style="font-size: 14px; font-weight: 600; color: #b8860b;" id="ratiRateDisplay">0</div>
             </div>
         </div>
 
@@ -814,19 +899,24 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 <script>
-    // Conversion: 1 Vori = 16 Ana, 1 Ana = 6 Rati
-    // 1 Vori = 11.664 Gram
+    // Conversion constants
+    // 1 Vori = 16 Ana, 1 Ana = 6 Rati, 1 Rati = 6 Point (পয়োতি)
+    // So: 1 Vori = 16 Ana = 96 Rati = 576 Point
+    // 1 Vori = 11.664 Grams
     const VORI_TO_GRAM = 11.664;
     const VORI_TO_ANA = 16;
     const ANA_TO_RATI = 6;
+    const RATI_TO_POINT = 6;
+    const VORI_TO_RATI = VORI_TO_ANA * ANA_TO_RATI; // 96
+    const VORI_TO_POINT = VORI_TO_RATI * RATI_TO_POINT; // 576
 
     // Global variables
     let goldRates = [];
     let buyItems = [];
     let selectedKarat = '22K';
-    let currentRatePerVori = 5850; // default 22K rate per vori
+    let currentRatePerVori = 5850;
 
-    // Mock customers data (directly in JavaScript)
+    // Mock customers data
     const mockCustomers = [
         { id: 1, name: "রহিম মিয়া", phone: "01712-345678" },
         { id: 2, name: "করিমা বেগম", phone: "01812-345679" },
@@ -838,34 +928,121 @@
         { id: 8, name: "শাহীন আক্তার", phone: "01822-234567" }
     ];
 
-    // Mock gold rates
-    const mockGoldRates = [
-        { karat: "24K", buyingRate: 6100, sellingRate: 6200, change: 25 },
-        { karat: "22K", buyingRate: 5850, sellingRate: 5950, change: 20 },
-        { karat: "21K", buyingRate: 5600, sellingRate: 5700, change: 15 },
-        { karat: "20K", buyingRate: 5350, sellingRate: 5450, change: 12 },
-        { karat: "19K", buyingRate: 5100, sellingRate: 5200, change: 10 },
-        { karat: "18K", buyingRate: 4900, sellingRate: 5000, change: 10 },
-        { karat: "17K", buyingRate: 4700, sellingRate: 4800, change: 8 },
-        { karat: "16K", buyingRate: 4500, sellingRate: 4600, change: 8 },
-        { karat: "15K", buyingRate: 4300, sellingRate: 4400, change: 5 },
-        { karat: "14K", buyingRate: 4100, sellingRate: 4200, change: 5 }
-    ];
-
     $(document).ready(function() {
-        loadGoldRates();
+        initializeGoldRates();
         loadCustomers();
     });
 
-    // Load gold rates (using mock data)
-    function loadGoldRates() {
-        goldRates = mockGoldRates;
-        renderRateGrid();
-        // Set default rate
+    function selectItemName() {
+        var selectedValue = $('#itemNameSelect').val();
+        if (selectedValue) {
+            $('#itemName').val(selectedValue);
+        }
+    }
+
+    $('#itemName').on('input', function() {
+        if ($(this).val() !== $('#itemNameSelect').val()) {
+            $('#itemNameSelect').val('');
+        }
+    });
+
+    function initializeGoldRates() {
+        goldRates = [
+            { karat: "24K", rate: 6100 },
+            { karat: "22K", rate: 5850 },
+            { karat: "21K", rate: 5600 },
+            { karat: "20K", rate: 5350 },
+            { karat: "19K", rate: 5100 },
+            { karat: "18K", rate: 4900 },
+            { karat: "17K", rate: 4700 },
+            { karat: "16K", rate: 4500 },
+            { karat: "15K", rate: 4300 },
+            { karat: "14K", rate: 4100 }
+        ];
+        renderEditableRateGrid();
         updateRateByKarat('22K');
     }
 
-    // Load customers (using mock data)
+    function renderEditableRateGrid() {
+        let html = '';
+        for(let i = 0; i < goldRates.length; i++) {
+            const rate = goldRates[i];
+            const isActive = rate.karat === selectedKarat;
+            html += '<div class="rate-item ' + (isActive ? 'active' : '') + '" onclick="selectKarat(\'' + rate.karat + '\')">' +
+                        '<div class="rate-karat">' + rate.karat + '</div>' +
+                        '<div class="rate-value">' +
+                            '<input type="number" id="rate_' + rate.karat + '" value="' + rate.rate + '" step="10" onchange="updateGoldRate(\'' + rate.karat + '\', this.value)" onclick="event.stopPropagation()">' +
+                        '</div>' +
+                    '</div>';
+        }
+        $('#rateGrid').html(html);
+    }
+
+    function updateGoldRate(karat, newRate) {
+        newRate = parseFloat(newRate);
+        if (isNaN(newRate)) newRate = 0;
+        for(let i = 0; i < goldRates.length; i++) {
+            if(goldRates[i].karat === karat) {
+                goldRates[i].rate = newRate;
+                break;
+            }
+        }
+        if (karat === selectedKarat) {
+            currentRatePerVori = newRate;
+            $('#voriRateInput').val(Math.round(currentRatePerVori));
+            updateAllRateDisplays();
+            calculateTotalPriceFromWeight();
+        }
+    }
+
+    function selectKarat(karat) {
+        selectedKarat = karat;
+        for(let i = 0; i < goldRates.length; i++) {
+            if(goldRates[i].karat === karat) {
+                currentRatePerVori = goldRates[i].rate;
+                break;
+            }
+        }
+        $('#voriRateInput').val(Math.round(currentRatePerVori));
+        updateAllRateDisplays();
+        $('#karatSelect').val(karat);
+        renderEditableRateGrid();
+        calculateTotalPriceFromWeight();
+    }
+
+    function updateAllRateDisplays() {
+        const perVori = currentRatePerVori;
+        const perAna = perVori / VORI_TO_ANA;
+        const perRati = perAna / ANA_TO_RATI;
+        const perPoint = perRati / RATI_TO_POINT;
+        const perGram = perVori / VORI_TO_GRAM;
+
+        $('#perVoriDisplay').text('৳ ' + perVori.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}));
+        $('#perAnaDisplay').text('৳ ' + perAna.toFixed(2));
+        $('#perRatiDisplay').text('৳ ' + perRati.toFixed(2));
+        $('#perPointDisplay').text('৳ ' + perPoint.toFixed(2));
+
+        window.perAnaRate = perAna;
+        window.perRatiRate = perRati;
+        window.perPointRate = perPoint;
+    }
+
+    function updateRateFromInput() {
+        let newRate = parseFloat($('#voriRateInput').val()) || 0;
+        if (newRate > 0) {
+            currentRatePerVori = newRate;
+            updateAllRateDisplays();
+            calculateTotalPriceFromWeight();
+            for(let i = 0; i < goldRates.length; i++) {
+                if(goldRates[i].karat === selectedKarat) {
+                    goldRates[i].rate = newRate;
+                    break;
+                }
+            }
+            renderEditableRateGrid();
+        }
+    }
+
     function loadCustomers() {
         let options = '<option value="">-- গ্রাহক নির্বাচন করুন --</option>';
         for(let i = 0; i < mockCustomers.length; i++) {
@@ -874,184 +1051,132 @@
         $('#customerSelect').html(options);
     }
 
-    // Render rate grid
-    function renderRateGrid() {
-        let html = '';
-        for(let i = 0; i < goldRates.length; i++) {
-            const rate = goldRates[i];
-            const isActive = rate.karat === selectedKarat;
-            html += '<div class="rate-item ' + (isActive ? 'active' : '') + '" onclick="selectKarat(\'' + rate.karat + '\', ' + rate.buyingRate + ')">' +
-                        '<div class="rate-karat">' + rate.karat + '</div>' +
-                        '<div class="rate-value">' + rate.buyingRate + '</div>' +
-                    '</div>';
-        }
-        $('#rateGrid').html(html);
-    }
-
-    // Select karat and update rates
-    function selectKarat(karat, ratePerGram) {
-        selectedKarat = karat;
-        // Convert per gram rate to per vori rate
-        currentRatePerVori = ratePerGram * VORI_TO_GRAM;
-        updateRateByKarat(karat);
-        renderRateGrid();
-        calculateTotalPriceFromWeight();
-    }
-
-    // Update rate displays based on selected karat
     function updateRateByKarat(karat) {
-        // Find the rate per gram for selected karat
-        let ratePerGram = 0;
         for(let i = 0; i < goldRates.length; i++) {
             if(goldRates[i].karat === karat) {
-                ratePerGram = goldRates[i].buyingRate;
+                currentRatePerVori = goldRates[i].rate;
                 break;
             }
         }
-
-        currentRatePerVori = ratePerGram * VORI_TO_GRAM;
-
-        // Update editable rate input
         $('#voriRateInput').val(Math.round(currentRatePerVori));
-
-        // Calculate per ana and per rati
-        updateRateDisplays();
-
-        // Update karat select
-        $('#karatSelect').val(karat);
-
-        // Recalculate price if weight exists
+        updateAllRateDisplays();
         calculateTotalPriceFromWeight();
     }
 
-    // Update rate displays from currentRatePerVori
-    function updateRateDisplays() {
-        const perAna = currentRatePerVori / VORI_TO_ANA;
-        const perRati = perAna / ANA_TO_RATI;
-
-        $('#anaRateDisplay').text('৳ ' + perAna.toFixed(2));
-        $('#ratiRateDisplay').text('৳ ' + perRati.toFixed(2));
-        $('#ratePerVori').val(currentRatePerVori);
-        $('#voriRateDisplay').text(Math.round(currentRatePerVori).toLocaleString());
-    }
-
-    // Update rate from editable input
-    function updateRateFromInput() {
-        let newRate = parseFloat($('#voriRateInput').val()) || 0;
-        if (newRate > 0) {
-            currentRatePerVori = newRate;
-            updateRateDisplays();
-            calculateTotalPriceFromWeight();
-
-            // Find and highlight matching karat based on rate per gram
-            const ratePerGram = currentRatePerVori / VORI_TO_GRAM;
-            let closestKarat = null;
-            let minDiff = Infinity;
-            for(let i = 0; i < goldRates.length; i++) {
-                let diff = Math.abs(goldRates[i].buyingRate - ratePerGram);
-                if(diff < minDiff) {
-                    minDiff = diff;
-                    closestKarat = goldRates[i].karat;
-                }
-            }
-            if(closestKarat && minDiff < 50) {
-                selectedKarat = closestKarat;
-                $('#karatSelect').val(selectedKarat);
-                renderRateGrid();
-            }
-        }
-    }
-
-    // ========== WEIGHT CALCULATION LOGIC (ভরি, আনা, রতি) ==========
-    // Get total vori from the three inputs
+    // ========== WEIGHT CALCULATION WITH POINT (পয়োতি) ==========
     function getTotalVoriFromInputs() {
         let vori = parseFloat($('#voriInput').val()) || 0;
         let ana = parseFloat($('#anaInput').val()) || 0;
         let rati = parseFloat($('#ratiInput').val()) || 0;
+        let point = parseFloat($('#pointInput').val()) || 0;
 
-        // Convert ana to vori (16 ana = 1 vori)
         let voriFromAna = ana / VORI_TO_ANA;
-        // Convert rati to vori (1 ana = 6 rati, so 96 rati = 1 vori)
-        let voriFromRati = rati / (VORI_TO_ANA * ANA_TO_RATI);
+        let voriFromRati = rati / VORI_TO_RATI;
+        let voriFromPoint = point / VORI_TO_POINT;
 
-        let totalVori = vori + voriFromAna + voriFromRati;
-        return totalVori;
+        return vori + voriFromAna + voriFromRati + voriFromPoint;
     }
 
-    // Update all weight inputs based on total vori
-    function updateWeightInputsFromVori(totalVori) {
-        if (isNaN(totalVori)) totalVori = 0;
+    function convertVoriToComponents(totalVori) {
+        if (isNaN(totalVori) || totalVori < 0) totalVori = 0;
+
         let voriPart = Math.floor(totalVori);
         let fractionalVori = totalVori - voriPart;
-        let totalAna = fractionalVori * VORI_TO_ANA;
-        let anaPart = Math.floor(totalAna);
-        let fractionalAna = totalAna - anaPart;
-        let ratiPart = Math.round(fractionalAna * ANA_TO_RATI);
+        let totalPoint = fractionalVori * VORI_TO_POINT;
 
-        // Handle rounding where rati becomes 6
-        if (ratiPart >= ANA_TO_RATI) {
-            ratiPart = 0;
+        let ratiPart = Math.floor(totalPoint / RATI_TO_POINT);
+        let pointPart = totalPoint - (ratiPart * RATI_TO_POINT);
+
+        let anaPart = Math.floor(ratiPart / ANA_TO_RATI);
+        let remainingRati = ratiPart - (anaPart * ANA_TO_RATI);
+
+        pointPart = Math.round(pointPart * 100) / 100;
+
+        // Normalize
+        if (Math.abs(pointPart - RATI_TO_POINT) < 0.01) {
+            pointPart = 0;
+            remainingRati += 1;
+        }
+        if (Math.abs(remainingRati - ANA_TO_RATI) < 0.01 || remainingRati >= ANA_TO_RATI) {
+            remainingRati = 0;
             anaPart += 1;
-            if (anaPart >= VORI_TO_ANA) {
-                anaPart = 0;
-                voriPart += 1;
-            }
+        }
+        if (Math.abs(anaPart - VORI_TO_ANA) < 0.01 || anaPart >= VORI_TO_ANA) {
+            anaPart = 0;
+            voriPart += 1;
         }
 
-        $('#voriInput').val(voriPart);
-        $('#anaInput').val(anaPart);
-        $('#ratiInput').val(ratiPart);
+        return {
+            vori: voriPart,
+            ana: anaPart,
+            rati: remainingRati,
+            point: pointPart
+        };
     }
 
-    // Called when vori input changes
+    function updateWeightInputsFromVori(totalVori) {
+        let components = convertVoriToComponents(totalVori);
+        $('#voriInput').val(components.vori);
+        $('#anaInput').val(components.ana);
+        $('#ratiInput').val(components.rati);
+        $('#pointInput').val(components.point);
+    }
+
     function syncWeightFromVori() {
-        let vori = parseFloat($('#voriInput').val()) || 0;
-        let ana = parseFloat($('#anaInput').val()) || 0;
-        let rati = parseFloat($('#ratiInput').val()) || 0;
-
-        // Total vori = vori from vori field + ana converted + rati converted
-        let totalVori = vori + (ana / VORI_TO_ANA) + (rati / (VORI_TO_ANA * ANA_TO_RATI));
+        let totalVori = getTotalVoriFromInputs();
         updateWeightInputsFromVori(totalVori);
         calculateTotalPriceFromWeight();
     }
 
-    // Called when ana input changes
     function syncWeightFromAna() {
-        let vori = parseFloat($('#voriInput').val()) || 0;
-        let ana = parseFloat($('#anaInput').val()) || 0;
-        let rati = parseFloat($('#ratiInput').val()) || 0;
-
-        let totalVori = vori + (ana / VORI_TO_ANA) + (rati / (VORI_TO_ANA * ANA_TO_RATI));
+        let totalVori = getTotalVoriFromInputs();
         updateWeightInputsFromVori(totalVori);
         calculateTotalPriceFromWeight();
     }
 
-    // Called when rati input changes
     function syncWeightFromRati() {
-        let vori = parseFloat($('#voriInput').val()) || 0;
-        let ana = parseFloat($('#anaInput').val()) || 0;
-        let rati = parseFloat($('#ratiInput').val()) || 0;
-
-        let totalVori = vori + (ana / VORI_TO_ANA) + (rati / (VORI_TO_ANA * ANA_TO_RATI));
+        let totalVori = getTotalVoriFromInputs();
         updateWeightInputsFromVori(totalVori);
         calculateTotalPriceFromWeight();
     }
 
-    // Calculate total price based on current weight and rate
+    function syncWeightFromPoint() {
+        let totalVori = getTotalVoriFromInputs();
+        updateWeightInputsFromVori(totalVori);
+        calculateTotalPriceFromWeight();
+    }
+
     function calculateTotalPriceFromWeight() {
         let totalVori = getTotalVoriFromInputs();
         let gram = totalVori * VORI_TO_GRAM;
         let totalPrice = totalVori * currentRatePerVori;
 
-        $('#gramDisplay').text('= ' + gram.toFixed(3) + ' গ্রাম (' + totalVori.toFixed(4) + ' ভরি)');
-        $('#itemTotalDisplay').text(totalPrice.toLocaleString());
+        let voriDisplay = totalVori.toFixed(4);
+
+        $('#gramDisplay').html('<i class="fas fa-chart-line"></i> = ' + gram.toFixed(3) + ' গ্রাম (' + voriDisplay + ' ভরি)');
+        $('#itemTotalDisplay').text(totalPrice.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}));
         $('#itemTotal').val(totalPrice);
         $('#totalVoriHidden').val(totalVori);
 
         return { gram: gram, vori: totalVori, total: totalPrice };
     }
 
-    // Add item to list
+    function formatWeightDisplay(vori, ana, rati, point) {
+        let parts = [];
+        if (vori > 0) parts.push(vori + ' ভরি');
+        if (ana > 0) parts.push(ana + ' আনা');
+        if (rati > 0) {
+            let ratiFormatted = Number.isInteger(rati) ? rati : rati.toFixed(2);
+            parts.push(ratiFormatted + ' রতি');
+        }
+        if (point > 0) {
+            let pointFormatted = Number.isInteger(point) ? point : point.toFixed(2);
+            parts.push(pointFormatted + ' পয়োতি');
+        }
+        if (parts.length === 0) return '0 ভরি';
+        return parts.join(' ');
+    }
+
     function addItem() {
         const customerId = $('#customerSelect').val();
         const customerText = $('#customerSelect option:selected').text();
@@ -1064,10 +1189,9 @@
         const voriInputVal = parseFloat($('#voriInput').val()) || 0;
         const anaInputVal = parseFloat($('#anaInput').val()) || 0;
         const ratiInputVal = parseFloat($('#ratiInput').val()) || 0;
-
+        const pointInputVal = parseFloat($('#pointInput').val()) || 0;
         const gramAmount = totalVori * VORI_TO_GRAM;
 
-        // Validation
         if (!customerId) {
             showToast('error', 'গ্রাহক নির্বাচন করুন');
             return;
@@ -1077,7 +1201,7 @@
             return;
         }
         if (totalVori <= 0) {
-            showToast('error', 'সঠিক ওজন দিন (ভরি, আনা, রতি)');
+            showToast('error', 'সঠিক ওজন দিন');
             return;
         }
         if (totalPrice <= 0) {
@@ -1085,7 +1209,7 @@
             return;
         }
 
-        const item = {
+        buyItems.push({
             id: Date.now(),
             customerId: customerId,
             customerName: customerName,
@@ -1094,25 +1218,24 @@
             voriPart: voriInputVal,
             anaPart: anaInputVal,
             ratiPart: ratiInputVal,
+            pointPart: pointInputVal,
             voriAmount: totalVori,
             gramAmount: gramAmount,
             ratePerVori: currentRatePerVori,
+            ratePerAna: currentRatePerVori / VORI_TO_ANA,
+            ratePerRati: (currentRatePerVori / VORI_TO_ANA) / ANA_TO_RATI,
+            ratePerPoint: ((currentRatePerVori / VORI_TO_ANA) / ANA_TO_RATI) / RATI_TO_POINT,
             total: totalPrice
-        };
+        });
 
-        buyItems.push(item);
         renderItems();
         clearForm();
         showToast('success', 'আইটেম যোগ করা হয়েছে');
     }
 
-    // Render items list
     function renderItems() {
         if (buyItems.length === 0) {
-            $('#itemsContainer').html('<div class="empty-state">' +
-                '<i class="fas fa-box-open"></i>' +
-                '<p>কোনো আইটেম যোগ করা হয়নি</p>' +
-                '</div>');
+            $('#itemsContainer').html('<div class="empty-state"><i class="fas fa-box-open"></i><p>কোনো আইটেম যোগ করা হয়নি</p></div>');
             updateSummary();
             return;
         }
@@ -1120,55 +1243,56 @@
         let html = '';
         for(let i = 0; i < buyItems.length; i++) {
             const item = buyItems[i];
-            const weightDisplay = item.voriPart + ' ভরি ' + item.anaPart + ' আনা ' + item.ratiPart + ' রতি';
+            const weightDisplay = formatWeightDisplay(item.voriPart, item.anaPart, item.ratiPart, item.pointPart);
 
             html += '<div class="item-card">' +
                         '<div class="item-info">' +
-                            '<div class="item-name">' + item.itemName + '</div>' +
+                            '<div class="item-name">' + escapeHtml(item.itemName) + '</div>' +
                             '<div class="item-details">' + item.karat + ' | ' + weightDisplay + '</div>' +
                         '</div>' +
                         '<div class="item-price">' +
                             '<div class="item-amount">৳ ' + item.total.toLocaleString() + '</div>' +
                             '<div class="item-weight">' + item.gramAmount.toFixed(2) + ' গ্রাম</div>' +
                         '</div>' +
-                        '<div class="delete-item" onclick="deleteItem(' + item.id + ')">' +
-                            '<i class="fas fa-trash-alt"></i>' +
-                        '</div>' +
+                        '<div class="delete-item" onclick="deleteItem(' + item.id + ')"><i class="fas fa-trash-alt"></i></div>' +
                     '</div>';
         }
         $('#itemsContainer').html(html);
         updateSummary();
     }
 
-    // Delete item
+    function escapeHtml(text) {
+        if (!text) return '';
+        return text.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
     function deleteItem(id) {
         if (confirm('আইটেমটি ডিলিট করতে চান?')) {
-            const newItems = [];
-            for(let i = 0; i < buyItems.length; i++) {
-                if(buyItems[i].id !== id) {
-                    newItems.push(buyItems[i]);
-                }
-            }
-            buyItems = newItems;
+            buyItems = buyItems.filter(item => item.id !== id);
             renderItems();
             showToast('success', 'আইটেম ডিলিট করা হয়েছে');
         }
     }
 
-    // Clear form
     function clearForm() {
         $('#itemName').val('');
+        $('#itemNameSelect').val('');
         $('#voriInput').val('0');
         $('#anaInput').val('0');
         $('#ratiInput').val('0');
+        $('#pointInput').val('0');
         $('#itemTotalDisplay').text('0');
         $('#itemTotal').val('0');
-        $('#gramDisplay').text('= 0.000 গ্রাম (0 ভরি)');
+        $('#gramDisplay').html('<i class="fas fa-chart-line"></i> = 0.000 গ্রাম (0.0000 ভরি)');
         $('#totalVoriHidden').val('0');
         calculateTotalPriceFromWeight();
     }
 
-    // Clear all items
     function clearAll() {
         if (buyItems.length === 0) return;
         if (confirm('সব আইটেম ডিলিট করতে চান?')) {
@@ -1178,119 +1302,73 @@
         }
     }
 
-    // Update summary
     function updateSummary() {
         let totalItems = buyItems.length;
-        let totalVori = 0;
-        let totalGram = 0;
-        let grandTotal = 0;
-
-        for(let i = 0; i < buyItems.length; i++) {
-            totalVori += buyItems[i].voriAmount;
-            totalGram += buyItems[i].gramAmount;
-            grandTotal += buyItems[i].total;
+        let totalVori = 0, totalGram = 0, grandTotal = 0;
+        for(let item of buyItems) {
+            totalVori += item.voriAmount;
+            totalGram += item.gramAmount;
+            grandTotal += item.total;
         }
-
         $('#totalItems').text(totalItems);
         $('#totalWeight').text(totalGram.toFixed(3) + ' গ্রাম (' + totalVori.toFixed(3) + ' ভরি)');
         $('#grandTotal').text('৳ ' + grandTotal.toLocaleString());
     }
 
-    // Save purchase
     function savePurchase() {
         if (buyItems.length === 0) {
             showToast('error', 'কোনো আইটেম যোগ করা হয়নি');
             return;
         }
-
         const customerId = $('#customerSelect').val();
         if (!customerId) {
             showToast('error', 'গ্রাহক নির্বাচন করুন');
             return;
         }
 
-        let totalVori = 0;
-        let totalGram = 0;
-        let grandTotal = 0;
-        for(let i = 0; i < buyItems.length; i++) {
-            totalVori += buyItems[i].voriAmount;
-            totalGram += buyItems[i].gramAmount;
-            grandTotal += buyItems[i].total;
+        let totalVori = 0, totalGram = 0, grandTotal = 0;
+        for(let item of buyItems) {
+            totalVori += item.voriAmount;
+            totalGram += item.gramAmount;
+            grandTotal += item.total;
         }
 
-        const customerText = $('#customerSelect option:selected').text();
-        const customerName = customerText.split('(')[0].trim();
-
-        // Show modal with details
-        const modalDetails = '<div style="display: flex; justify-content: space-between; margin-bottom: 8px;">' +
-                                '<span>গ্রাহক:</span>' +
-                                '<span><strong>' + customerName + '</strong></span>' +
-                            '</div>' +
-                            '<div style="display: flex; justify-content: space-between; margin-bottom: 8px;">' +
-                                '<span>মোট আইটেম:</span>' +
-                                '<span><strong>' + buyItems.length + ' টি</strong></span>' +
-                            '</div>' +
-                            '<div style="display: flex; justify-content: space-between; margin-bottom: 8px;">' +
-                                '<span>মোট ওজন:</span>' +
-                                '<span><strong>' + totalGram.toFixed(3) + ' গ্রাম</strong><br><small>(' + totalVori.toFixed(3) + ' ভরি)</small></span>' +
-                            '</div>' +
-                            '<div style="display: flex; justify-content: space-between; margin-top: 8px; padding-top: 8px; border-top: 1px solid #e0e0e0;">' +
-                                '<span style="font-weight: 600;">মোট মূল্য:</span>' +
-                                '<span style="font-weight: 700; color: #b8860b;">৳ ' + grandTotal.toLocaleString() + '</span>' +
-                            '</div>';
+        const customerName = $('#customerSelect option:selected').text().split('(')[0].trim();
+        const modalDetails = '<div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>গ্রাহক:</span><span><strong>' + escapeHtml(customerName) + '</strong></span></div>' +
+                            '<div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>মোট আইটেম:</span><span><strong>' + buyItems.length + ' টি</strong></span></div>' +
+                            '<div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>মোট ওজন:</span><span><strong>' + totalGram.toFixed(3) + ' গ্রাম</strong><br><small>(' + totalVori.toFixed(3) + ' ভরি)</small></span></div>' +
+                            '<div style="display: flex; justify-content: space-between; margin-top: 8px; padding-top: 8px; border-top: 1px solid #e0e0e0;"><span style="font-weight: 600;">মোট মূল্য:</span><span style="font-weight: 700; color: #b8860b;">৳ ' + grandTotal.toLocaleString() + '</span></div>';
 
         $('#modalDetails').html(modalDetails);
         $('#successModal').fadeIn(200);
     }
 
-    // Close modal
     function closeModal() {
         $('#successModal').fadeOut(200);
-        // Reset after save
         buyItems = [];
         renderItems();
         clearForm();
         showToast('success', 'ক্রয় সম্পন্ন হয়েছে');
     }
 
-    // Show toast notification
     function showToast(type, message) {
         const toast = document.createElement('div');
         toast.className = 'toast-notification ' + type;
         toast.innerHTML = '<i class="fas ' + (type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle') + '"></i> ' + message;
         document.body.appendChild(toast);
-
-        setTimeout(function() {
+        setTimeout(() => {
             toast.style.opacity = '0';
-            setTimeout(function() {
-                if(toast.parentNode) toast.parentNode.removeChild(toast);
-            }, 300);
+            setTimeout(() => { if(toast.parentNode) toast.parentNode.removeChild(toast); }, 300);
         }, 2000);
     }
 
-    // Karat change handler
     $('#karatSelect').on('change', function() {
         const karat = $(this).val();
-        // Find rate for this karat
-        let ratePerGram = 0;
-        for(let i = 0; i < goldRates.length; i++) {
-            if(goldRates[i].karat === karat) {
-                ratePerGram = goldRates[i].buyingRate;
-                break;
-            }
-        }
-        if(ratePerGram > 0) {
-            currentRatePerVori = ratePerGram * VORI_TO_GRAM;
-            $('#voriRateInput').val(Math.round(currentRatePerVori));
-            updateRateDisplays();
-            selectedKarat = karat;
-            renderRateGrid();
-            calculateTotalPriceFromWeight();
-        }
+        selectKarat(karat);
     });
 
-    // Initial calculation on page load
     setTimeout(() => {
         calculateTotalPriceFromWeight();
+        updateAllRateDisplays();
     }, 100);
 </script>
