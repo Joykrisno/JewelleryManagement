@@ -27,6 +27,11 @@ namespace JewelleryManagement.Controllers
             ViewBag.GoldRates = _goldRates;
             return View();
         }
+        public IActionResult Sell()
+        {
+            
+            return View();
+        }
 
         [HttpGet]
         public IActionResult GetGoldRates()
