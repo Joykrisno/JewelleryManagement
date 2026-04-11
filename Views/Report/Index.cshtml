@@ -1,0 +1,909 @@
+﻿@{
+    ViewData["Title"] = "Report";
+}
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: #f8f9fa;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        padding-bottom: 30px;
+    }
+
+    .mobile-container {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 16px;
+        background: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    /* Header */
+    .app-header {
+        background: white;
+        border-radius: 24px;
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .header-title h1 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 0;
+    }
+
+    .header-title p {
+        font-size: 12px;
+        color: #1565c0;
+        margin: 4px 0 0 0;
+    }
+
+    .header-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, #1565c0, #42a5f5);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+    }
+
+    /* Tab Navigation */
+    .tab-container {
+        background: white;
+        border-radius: 20px;
+        padding: 8px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .tab-buttons {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+    }
+
+    .tab-btn {
+        flex: 1;
+        min-width: 100px;
+        padding: 12px 8px;
+        background: #f5f5f5;
+        border: none;
+        border-radius: 16px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #666;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+        .tab-btn i {
+            font-size: 14px;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #1565c0, #42a5f5);
+            color: white;
+        }
+
+        .tab-btn:active {
+            transform: scale(0.98);
+        }
+
+    /* Filter Card */
+    .filter-card {
+        background: white;
+        border-radius: 20px;
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .filter-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1a1a2e;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .filter-title i {
+            color: #1565c0;
+        }
+
+    .customer-select {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #e0e0e0;
+        border-radius: 16px;
+        font-size: 14px;
+        margin-bottom: 12px;
+        font-family: inherit;
+    }
+
+        .customer-select:focus {
+            outline: none;
+            border-color: #1565c0;
+        }
+
+    /* Summary Cards */
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .summary-card {
+        background: white;
+        border-radius: 20px;
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+
+    .summary-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, #1565c0, #42a5f5);
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 12px;
+        color: white;
+        font-size: 20px;
+    }
+
+    .summary-label {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 6px;
+    }
+
+    .summary-value {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+
+    .summary-sub {
+        font-size: 11px;
+        color: #999;
+        margin-top: 4px;
+    }
+
+    /* Stock Card */
+    .stock-card {
+        background: white;
+        border-radius: 20px;
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .stock-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .stock-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1a1a2e;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .stock-badge {
+        background: #e8f5e9;
+        color: #2e7d32;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    /* Karat Stock Grid */
+    .karat-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
+    .karat-item {
+        background: #f8f9fa;
+        border-radius: 16px;
+        padding: 12px 8px;
+        text-align: center;
+        border: 1px solid #e0e0e0;
+    }
+
+    .karat-name {
+        font-size: 14px;
+        font-weight: 700;
+        color: #1565c0;
+        margin-bottom: 6px;
+    }
+
+    .karat-weight {
+        font-size: 16px;
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+
+        .karat-weight small {
+            font-size: 10px;
+            font-weight: 400;
+            color: #999;
+        }
+
+    /* Brand Stock */
+    .brand-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .brand-name {
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .brand-icon {
+        width: 36px;
+        height: 36px;
+        background: #e3f2fd;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #1565c0;
+    }
+
+    .brand-stats {
+        text-align: right;
+    }
+
+    .brand-weight {
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+
+    .brand-count {
+        font-size: 11px;
+        color: #999;
+    }
+
+    /* Product Table */
+    .product-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .product-table th {
+            text-align: left;
+            padding: 10px 8px;
+            background: #f8f9fa;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .product-table td {
+            padding: 10px 8px;
+            font-size: 13px;
+            color: #1a1a2e;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+    /* Transaction Table */
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .data-table th {
+            text-align: left;
+            padding: 12px 8px;
+            background: #f8f9fa;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .data-table td {
+            padding: 12px 8px;
+            font-size: 13px;
+            color: #1a1a2e;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+    .table-row-total {
+        background: #f8f9fa;
+        font-weight: 600;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: #999;
+    }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+    /* Scrollable */
+    .scrollable-table {
+        overflow-x: auto;
+    }
+
+    /* Toast */
+    .toast-notification {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        background: #1a1a2e;
+        color: white;
+        padding: 14px 20px;
+        border-radius: 30px;
+        text-align: center;
+        font-size: 14px;
+        z-index: 1100;
+        animation: slideUp 0.3s ease;
+    }
+
+    @@keyframes slideUp {
+        from
+
+    {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    }
+
+    .toast-notification.success {
+        background: #28a745;
+    }
+
+    /* Modal */
+    .modal-custom {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .modal-content-custom {
+        background: white;
+        border-radius: 32px;
+        max-width: 320px;
+        width: 100%;
+        text-align: center;
+        padding: 24px;
+        animation: modalIn 0.3s ease;
+    }
+
+    @@keyframes modalIn {
+        from
+
+    {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    }
+
+    .modal-btn {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #1565c0, #42a5f5);
+        border: none;
+        border-radius: 30px;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+    }
+</style>
+
+<div class="mobile-container">
+    <!-- Header -->
+    <div class="app-header">
+        <div class="header-title">
+            <h1>রিপোর্ট</h1>
+            <p>বিশ্লেষণ, স্টোক ও পরিসংখ্যান</p>
+        </div>
+        <div class="header-icon">
+            <i class="fas fa-chart-pie"></i>
+        </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-container">
+        <div class="tab-buttons">
+            <button class="tab-btn active" onclick="switchTab('customer')">
+                <i class="fas fa-user"></i> গ্রাহক রিপোর্ট
+            </button>
+            <button class="tab-btn" onclick="switchTab('stock')">
+                <i class="fas fa-boxes"></i> স্টোক রিপোর্ট
+            </button>
+            <button class="tab-btn" onclick="switchTab('gold')">
+                <i class="fas fa-gem"></i> গোল্ড স্টোক
+            </button>
+        </div>
+    </div>
+
+    <!-- Customer Report Section -->
+    <div id="customerSection">
+        <!-- Customer Selection -->
+        <div class="filter-card">
+            <div class="filter-title">
+                <i class="fas fa-user-circle"></i> গ্রাহক নির্বাচন করুন
+            </div>
+            <select class="customer-select" id="customerSelect" onchange="loadCustomerReport()">
+                <option value="">-- গ্রাহক নির্বাচন করুন --</option>
+            </select>
+        </div>
+
+        <!-- Customer Summary Cards -->
+        <div class="summary-grid" id="customerSummaryGrid">
+            <div class="summary-card">
+                <div class="summary-icon"><i class="fas fa-shopping-cart"></i></div>
+                <div class="summary-label">মোট ক্রয়</div>
+                <div class="summary-value" id="custTotalPurchase">৳ 0</div>
+                <div class="summary-sub" id="custPurchaseCount">0 টি লেনদেন</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon"><i class="fas fa-tags"></i></div>
+                <div class="summary-label">মোট বিক্রয়</div>
+                <div class="summary-value" id="custTotalSell">৳ 0</div>
+                <div class="summary-sub" id="custSellCount">0 টি লেনদেন</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon"><i class="fas fa-handshake"></i></div>
+                <div class="summary-label">নেট লেনদেন</div>
+                <div class="summary-value" id="custNetAmount">৳ 0</div>
+                <div class="summary-sub" id="custTransactionCount">0 বার লেনদেন</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon"><i class="fas fa-weight-hanging"></i></div>
+                <div class="summary-label">মোট সোনা</div>
+                <div class="summary-value" id="custTotalGold">0 গ্রাম</div>
+                <div class="summary-sub" id="custTotalVori">0 ভরি</div>
+            </div>
+        </div>
+
+        <!-- Customer Transaction Table -->
+        <div class="filter-card">
+            <div class="filter-title">
+                <i class="fas fa-history"></i> লেনদেনের ইতিহাস
+            </div>
+            <div class="scrollable-table">
+                <table class="data-table" id="customerTransactionTable">
+                    <thead>
+                        <tr>
+                            <th>তারিখ</th>
+                            <th>ধরন</th>
+                            <th>আইটেম</th>
+                            <th>কারেট</th>
+                            <th>ওজন</th>
+                            <th>মূল্য</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customerTableBody">
+                        <tr><td colspan="6" class="empty-state"><i class="fas fa-user"></i><p>গ্রাহক নির্বাচন করুন</p></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stock Report Section (Hidden by default) -->
+    <div id="stockSection" style="display: none;">
+        <!-- Brand Wise Stock -->
+        <div class="stock-card">
+            <div class="stock-header">
+                <div class="stock-title">
+                    <i class="fas fa-trademark"></i> ব্র্যান্ড ভিত্তিক স্টোক
+                </div>
+                <div class="stock-badge"><i class="fas fa-box"></i> মোট পণ্য: <span id="totalBrandProducts">0</span></div>
+            </div>
+            <div id="brandStockList"></div>
+        </div>
+
+        <!-- Product Wise Stock -->
+        <div class="stock-card">
+            <div class="stock-header">
+                <div class="stock-title">
+                    <i class="fas fa-list-ul"></i> পণ্য ভিত্তিক স্টোক
+                </div>
+                <div class="stock-badge"><i class="fas fa-tag"></i> মোট আইটেম: <span id="totalProductItems">0</span></div>
+            </div>
+            <div class="scrollable-table">
+                <table class="product-table" id="productStockTable">
+                    <thead>
+                        <tr>
+                            <th>পণ্যের নাম</th>
+                            <th>ব্র্যান্ড</th>
+                            <th>কারেট</th>
+                            <th>পরিমাণ</th>
+                            <th>ওজন</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productStockBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gold Stock Section (Hidden by default) -->
+    <div id="goldSection" style="display: none;">
+        <!-- Karat Wise Gold Stock -->
+        <div class="stock-card">
+            <div class="stock-header">
+                <div class="stock-title">
+                    <i class="fas fa-chart-pie"></i> কারেট ভিত্তিক গোল্ড স্টোক
+                </div>
+                <div class="stock-badge"><i class="fas fa-weight-hanging"></i> মোট সোনা: <span id="totalGoldWeight">0</span> গ্রাম</div>
+            </div>
+            <div class="karat-grid" id="karatStockGrid"></div>
+        </div>
+
+        <!-- Gold Purchase History -->
+        <div class="stock-card">
+            <div class="stock-header">
+                <div class="stock-title">
+                    <i class="fas fa-shopping-cart"></i> গোল্ড ক্রয় ইতিহাস
+                </div>
+                <div class="stock-badge"><i class="fas fa-calendar"></i> সর্বশেষ ১০টি লেনদেন</div>
+            </div>
+            <div class="scrollable-table">
+                <table class="data-table" id="goldPurchaseTable">
+                    <thead>
+                        <tr>
+                            <th>তারিখ</th>
+                            <th>সরবরাহকারী</th>
+                            <th>কারেট</th>
+                            <th>ওজন</th>
+                            <th>মূল্য</th>
+                        </tr>
+                    </thead>
+                    <tbody id="goldPurchaseBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+<script>
+    // ========== DUMMY DATA ==========
+
+    // Customers List
+    const customers = [
+        { id: 1, name: "রহিম মিয়া", phone: "01712-345678", address: "ধানমন্ডি, ঢাকা" },
+        { id: 2, name: "করিমা বেগম", phone: "01812-345679", address: "গুলশান, ঢাকা" },
+        { id: 3, name: "শফিকুল ইসলাম", phone: "01912-345680", address: "বনানী, ঢাকা" },
+        { id: 4, name: "নাসরিন আক্তার", phone: "01612-345681", address: "মিরপুর, ঢাকা" },
+        { id: 5, name: "জাহিদ হাসান", phone: "01512-345682", address: "উত্তরা, ঢাকা" }
+    ];
+
+    // Customer Transactions
+    const customerTransactions = [
+        { id: 1, date: '2024-04-11', customerId: 1, type: 'purchase', item: 'সোনার চেইন', brand: 'IC', karat: '22K', weight: 11.664, vori: 1.0, amount: 58500 },
+        { id: 2, date: '2024-04-10', customerId: 1, type: 'sell', item: 'সোনার আংটি', brand: 'IC', karat: '22K', weight: 5.832, vori: 0.5, amount: 29750 },
+        { id: 3, date: '2024-04-09', customerId: 1, type: 'purchase', item: 'সোনার নেকলেস', brand: 'Dubai', karat: '22K', weight: 17.496, vori: 1.5, amount: 87750 },
+        { id: 4, date: '2024-04-08', customerId: 2, type: 'sell', item: 'সোনার কানের দুল', brand: 'Bangla', karat: '18K', weight: 3.888, vori: 0.333, amount: 16333 },
+        { id: 5, date: '2024-04-07', customerId: 2, type: 'purchase', item: 'সোনার ব্রেসলেট', brand: 'IC', karat: '22K', weight: 23.328, vori: 2.0, amount: 117000 },
+        { id: 6, date: '2024-04-06', customerId: 2, type: 'sell', item: 'সোনার মালা', brand: 'Dubai', karat: '24K', weight: 29.160, vori: 2.5, amount: 152500 },
+        { id: 7, date: '2024-04-05', customerId: 3, type: 'purchase', item: 'IC সোনা', brand: 'IC', karat: '22K', weight: 5.832, vori: 0.5, amount: 29250 },
+        { id: 8, date: '2024-04-04', customerId: 3, type: 'sell', item: 'Dubai সোনা', brand: 'Dubai', karat: '22K', weight: 8.748, vori: 0.75, amount: 43875 },
+        { id: 9, date: '2024-04-03', customerId: 3, type: 'purchase', item: 'Bangla সোনা', brand: 'Bangla', karat: '21K', weight: 11.664, vori: 1.0, amount: 56000 },
+        { id: 10, date: '2024-04-02', customerId: 4, type: 'sell', item: 'সোনার চেইন', brand: 'IC', karat: '22K', weight: 14.580, vori: 1.25, amount: 73125 },
+        { id: 11, date: '2024-04-01', customerId: 4, type: 'purchase', item: 'সোনার আংটি', brand: 'Dubai', karat: '18K', weight: 4.665, vori: 0.4, amount: 19600 },
+        { id: 12, date: '2024-03-31', customerId: 4, type: 'sell', item: 'সোনার নেকলেস', brand: 'Bangla', karat: '22K', weight: 11.664, vori: 1.0, amount: 58500 },
+        { id: 13, date: '2024-03-30', customerId: 5, type: 'purchase', item: 'সোনার কানের দুল', brand: 'IC', karat: '20K', weight: 2.332, vori: 0.2, amount: 10700 },
+        { id: 14, date: '2024-03-29', customerId: 5, type: 'sell', item: 'সোনার ব্রেসলেট', brand: 'Dubai', karat: '22K', weight: 17.496, vori: 1.5, amount: 87750 },
+        { id: 15, date: '2024-03-28', customerId: 5, type: 'purchase', item: 'সোনার মালা', brand: 'Bangla', karat: '24K', weight: 34.992, vori: 3.0, amount: 183000 }
+    ];
+
+    // Brand Wise Stock
+    const brandStock = [
+        { brand: "IC", icon: "fa-crown", products: ["সোনার চেইন", "সোনার আংটি", "IC সোনা"], totalWeight: 45.832, totalVori: 3.93, itemCount: 12, value: 275000 },
+        { brand: "Dubai", icon: "fa-city", products: ["সোনার নেকলেস", "Dubai সোনা", "সোনার ব্রেসলেট"], totalWeight: 62.904, totalVori: 5.39, itemCount: 10, value: 378000 },
+        { brand: "Bangla", icon: "fa-flag", products: ["Bangla সোনা", "সোনার মালা", "সোনার আংটি"], totalWeight: 38.876, totalVori: 3.33, itemCount: 8, value: 235000 }
+    ];
+
+    // Product Wise Stock
+    const productStock = [
+        { name: "সোনার চেইন", brand: "IC", karat: "22K", quantity: 5, weight: 58.320, vori: 5.0 },
+        { name: "সোনার আংটি", brand: "IC", karat: "22K", quantity: 8, weight: 37.324, vori: 3.2 },
+        { name: "IC সোনা", brand: "IC", karat: "22K", quantity: 3, weight: 17.496, vori: 1.5 },
+        { name: "সোনার নেকলেস", brand: "Dubai", karat: "22K", quantity: 4, weight: 46.656, vori: 4.0 },
+        { name: "Dubai সোনা", brand: "Dubai", karat: "22K", quantity: 3, weight: 26.244, vori: 2.25 },
+        { name: "সোনার ব্রেসলেট", brand: "Dubai", karat: "22K", quantity: 3, weight: 34.992, vori: 3.0 },
+        { name: "Bangla সোনা", brand: "Bangla", karat: "21K", quantity: 4, weight: 46.656, vori: 4.0 },
+        { name: "সোনার মালা", brand: "Bangla", karat: "24K", quantity: 2, weight: 23.328, vori: 2.0 },
+        { name: "সোনার আংটি", brand: "Bangla", karat: "18K", quantity: 6, weight: 27.993, vori: 2.4 }
+    ];
+
+    // Karat Wise Gold Stock
+    const karatStock = [
+        { karat: "24K", weight: 52.488, vori: 4.5, percentage: 25, ratePerGram: 6100, value: 320176 },
+        { karat: "22K", weight: 104.976, vori: 9.0, percentage: 50, ratePerGram: 5850, value: 614109 },
+        { karat: "21K", weight: 34.992, vori: 3.0, percentage: 17, ratePerGram: 5600, value: 195955 },
+        { karat: "18K", weight: 16.796, vori: 1.44, percentage: 8, ratePerGram: 4900, value: 82300 }
+    ];
+
+    // Gold Purchase History
+    const goldPurchases = [
+        { date: '2024-04-10', supplier: 'সোনা ট্রেডার্স', karat: '22K', weight: 23.328, vori: 2.0, amount: 136468 },
+        { date: '2024-04-08', supplier: 'গোল্ড হাউস', karat: '24K', weight: 11.664, vori: 1.0, amount: 71150 },
+        { date: '2024-04-05', supplier: 'জুয়েলারি সাপ্লাই', karat: '21K', weight: 17.496, vori: 1.5, amount: 97978 },
+        { date: '2024-04-03', supplier: 'সোনা ট্রেডার্স', karat: '22K', weight: 34.992, vori: 3.0, amount: 204702 },
+        { date: '2024-03-30', supplier: 'গোল্ড হাউস', karat: '18K', weight: 11.664, vori: 1.0, amount: 57154 },
+        { date: '2024-03-28', supplier: 'জুয়েলারি সাপ্লাই', karat: '22K', weight: 23.328, vori: 2.0, amount: 136468 },
+        { date: '2024-03-25', supplier: 'সোনা ট্রেডার্স', karat: '24K', weight: 17.496, vori: 1.5, amount: 106725 },
+        { date: '2024-03-22', supplier: 'গোল্ড হাউস', karat: '21K', weight: 11.664, vori: 1.0, amount: 65318 }
+    ];
+
+    let currentTab = 'customer';
+
+    $(document).ready(function() {
+        loadCustomerDropdown();
+        loadBrandStock();
+        loadProductStock();
+        loadKaratStock();
+        loadGoldPurchaseHistory();
+    });
+
+    function switchTab(tab) {
+        currentTab = tab;
+        $('.tab-btn').removeClass('active');
+
+        if (tab === 'customer') {
+            $('.tab-btn:eq(0)').addClass('active');
+            $('#customerSection').show();
+            $('#stockSection').hide();
+            $('#goldSection').hide();
+        } else if (tab === 'stock') {
+            $('.tab-btn:eq(1)').addClass('active');
+            $('#customerSection').hide();
+            $('#stockSection').show();
+            $('#goldSection').hide();
+        } else if (tab === 'gold') {
+            $('.tab-btn:eq(2)').addClass('active');
+            $('#customerSection').hide();
+            $('#stockSection').hide();
+            $('#goldSection').show();
+        }
+    }
+
+    function loadCustomerDropdown() {
+        let options = '<option value="">-- গ্রাহক নির্বাচন করুন --</option>';
+        customers.forEach(c => {
+            options += `<option value="${c.id}">${c.name} (${c.phone})</option>`;
+        });
+        $('#customerSelect').html(options);
+    }
+
+    function loadCustomerReport() {
+        const customerId = parseInt($('#customerSelect').val());
+        if (!customerId) {
+            $('#customerTableBody').html('<tr><td colspan="6" class="empty-state"><i class="fas fa-user"></i><p>গ্রাহক নির্বাচন করুন</p></td></tr>');
+            $('#custTotalPurchase').text('৳ 0');
+            $('#custTotalSell').text('৳ 0');
+            $('#custNetAmount').text('৳ 0');
+            $('#custTotalGold').text('0 গ্রাম');
+            return;
+        }
+
+        const customer = customers.find(c => c.id === customerId);
+        const transactions = customerTransactions.filter(t => t.customerId === customerId);
+
+        let totalPurchase = 0;
+        let totalSell = 0;
+        let purchaseCount = 0;
+        let sellCount = 0;
+        let totalGold = 0;
+        let totalVori = 0;
+
+        transactions.forEach(t => {
+            if (t.type === 'purchase') {
+                totalPurchase += t.amount;
+                purchaseCount++;
+            } else {
+                totalSell += t.amount;
+                sellCount++;
+            }
+            totalGold += t.weight;
+            totalVori += t.vori;
+        });
+
+        const netAmount = totalSell - totalPurchase;
+        const netColor = netAmount >= 0 ? '#2e7d32' : '#c62828';
+
+        $('#custTotalPurchase').text('৳ ' + totalPurchase.toLocaleString());
+        $('#custPurchaseCount').text(purchaseCount + ' টি');
+        $('#custTotalSell').text('৳ ' + totalSell.toLocaleString());
+        $('#custSellCount').text(sellCount + ' টি');
+        $('#custNetAmount').html((netAmount >= 0 ? '৳ ' : '৳ -') + Math.abs(netAmount).toLocaleString());
+        $('#custNetAmount').css('color', netColor);
+        $('#custTransactionCount').text((purchaseCount + sellCount) + ' বার লেনদেন');
+        $('#custTotalGold').text(totalGold.toFixed(2) + ' গ্রাম');
+        $('#custTotalVori').text(totalVori.toFixed(2) + ' ভরি');
+
+        // Render transaction table
+        let html = '';
+        const sorted = [...transactions].sort((a, b) => b.date.localeCompare(a.date));
+
+        sorted.forEach(t => {
+            const typeText = t.type === 'purchase' ? 'ক্রয়' : 'বিক্রয়';
+            const typeClass = t.type === 'purchase' ? 'color: #1565c0;' : 'color: #2e7d32;';
+            const typeIcon = t.type === 'purchase' ? '<i class="fas fa-arrow-down"></i>' : '<i class="fas fa-arrow-up"></i>';
+
+            html += `<tr>
+                        <td>${formatDate(t.date)}</td>
+                        <td style="${typeClass} font-weight: 600;">${typeIcon} ${typeText}</td>
+                        <td>${t.item}</td>
+                        <td>${t.karat}</td>
+                        <td>${t.weight.toFixed(2)} গ্রাম<br><small>(${t.vori.toFixed(3)} ভরি)</small></td>
+                        <td style="font-weight: 700;">৳ ${t.amount.toLocaleString()}</td>
+                    </tr>`;
+        });
+
+        if (sorted.length === 0) {
+            html = '<tr><td colspan="6" class="empty-state"><i class="fas fa-history"></i><p>কোনো লেনদেন নেই</p></td></tr>';
+        }
+
+        $('#customerTableBody').html(html);
+    }
+
+    function loadBrandStock() {
+        let html = '';
+        let totalProducts = 0;
+
+        brandStock.forEach(b => {
+            totalProducts += b.itemCount;
+            html += `<div class="brand-item">
+                        <div class="brand-name">
+                            <div class="brand-icon"><i class="fas ${b.icon}"></i></div>
+                            <div>
+                                <strong>${b.brand}</strong>
+                                <div style="font-size: 11px; color: #999;">${b.itemCount} টি পণ্য</div>
+                            </div>
+                        </div>
+                        <div class="brand-stats">
+                            <div class="brand-weight">${b.totalWeight.toFixed(2)} গ্রাম</div>
+                            <div class="brand-count">(${b.totalVori.toFixed(2)} ভরি) | ৳ ${b.value.toLocaleString()}</div>
+                        </div>
+                    </div>`;
+        });
+
+        $('#brandStockList').html(html);
+        $('#totalBrandProducts').text(totalProducts);
+    }
+
+    function loadProductStock() {
+        let html = '';
+        let totalItems = 0;
+
+        productStock.forEach(p => {
+            totalItems += p.quantity;
+            html += `<tr>
+                        <td><strong>${p.name}</strong></td>
+                        <td>${p.brand}</td>
+                        <td>${p.karat}</td>
+                        <td>${p.quantity} টি</td>
+                        <td>${p.weight.toFixed(2)} গ্রাম (${p.vori.toFixed(2)} ভরি)</td>
+                     </tr>`;
+        });
+
+        $('#productStockBody').html(html);
+        $('#totalProductItems').text(totalItems);
+    }
+
+    function loadKaratStock() {
+        let html = '';
+        let totalGold = 0;
+
+        karatStock.forEach(k => {
+            totalGold += k.weight;
+            html += `<div class="karat-item">
+                        <div class="karat-name">${k.karat}</div>
+                        <div class="karat-weight">${k.weight.toFixed(2)} <small>গ্রাম</small></div>
+                        <div class="karat-weight" style="font-size: 12px;">(${k.vori.toFixed(2)} ভরি)</div>
+                        <div style="font-size: 11px; color: #999;">৳ ${k.value.toLocaleString()}</div>
+                    </div>`;
+        });
+
+        $('#karatStockGrid').html(html);
+        $('#totalGoldWeight').text(totalGold.toFixed(2));
+    }
+
+    function loadGoldPurchaseHistory() {
+        let html = '';
+
+        goldPurchases.forEach(p => {
+            html += `<tr>
+                        <td>${formatDate(p.date)}</td>
+                        <td>${p.supplier}</td>
+                        <td>${p.karat}</td>
+                        <td>${p.weight.toFixed(2)} গ্রাম (${p.vori.toFixed(2)} ভরি)</td>
+                        <td>৳ ${p.amount.toLocaleString()}</td>
+                     </tr>`;
+        });
+
+        $('#goldPurchaseBody').html(html);
+    }
+
+    function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        const days = ['রবি', 'সোম', 'মঙ্গল', 'বুধ', 'বৃহ', 'শুক্র', 'শনি'];
+        const months = ['জানু', 'ফেব্রু', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টে', 'অক্টো', 'নভে', 'ডিসে'];
+        return `${days[date.getDay()]} ${date.getDate()} ${months[date.getMonth()]}`;
+    }
+
+    function showToast(type, message) {
+        const toast = document.createElement('div');
+        toast.className = 'toast-notification ' + type;
+        toast.innerHTML = '<i class="fas ' + (type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle') + '"></i> ' + message;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => { if(toast.parentNode) toast.parentNode.removeChild(toast); }, 300);
+        }, 2000);
+    }
+</script>
