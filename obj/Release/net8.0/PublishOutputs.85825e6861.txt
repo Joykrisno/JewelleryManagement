@@ -1,0 +1,7 @@
+D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Release\net8.0\PubTmp\Out\JewelleryManagement.exe
+D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Release\net8.0\PubTmp\Out\appsettings.Development.json
+D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Release\net8.0\PubTmp\Out\appsettings.json
+D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Release\net8.0\PubTmp\Out\JewelleryManagement.dll
+D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Release\net8.0\PubTmp\Out\JewelleryManagement.deps.json
+D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Release\net8.0\PubTmp\Out\JewelleryManagement.runtimeconfig.json
+D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Release\net8.0\PubTmp\Out\JewelleryManagement.pdb

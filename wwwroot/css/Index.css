@@ -395,6 +395,11 @@
     .stats-grid {
         grid-template-columns: repeat(4, 1fr);
     }
+
+    .menu-card {
+        display: block;
+        cursor: pointer;
+    }
 }
 
  

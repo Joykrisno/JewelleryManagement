@@ -26,9 +26,9 @@ D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManageme
 D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Debug\net8.0\staticwebassets.build.json.cache
 D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Debug\net8.0\staticwebassets.development.json
 D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Debug\net8.0\JewelleryManagement.dll
 D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Debug\net8.0\refint\JewelleryManagement.dll
 D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Debug\net8.0\JewelleryManagement.pdb
 D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Debug\net8.0\JewelleryManagement.genruntimeconfig.cache
 D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Debug\net8.0\ref\JewelleryManagement.dll
+D:\Driven-Systems\Tangail\Gupi-Da-Cameliya\JewelleryManagement\JewelleryManagement\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
