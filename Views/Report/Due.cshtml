@@ -1,0 +1,889 @@
+﻿@{
+    ViewData["Title"] = "বাকি";
+}
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: #f8f9fa;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        padding-bottom: 30px;
+    }
+
+    .mobile-container {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 16px;
+        background: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    /* Header */
+    .app-header {
+        background: white;
+        border-radius: 24px;
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .header-title h1 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 0;
+    }
+
+    .header-title p {
+        font-size: 12px;
+        color: #c62828;
+        margin: 4px 0 0 0;
+    }
+
+    .header-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, #c62828, #ef5350);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+    }
+
+    /* Customer Card */
+    .customer-card {
+        background: white;
+        border-radius: 20px;
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .card-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1a1a2e;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .card-title i {
+            color: #c62828;
+        }
+
+    .customer-select {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid #e0e0e0;
+        border-radius: 16px;
+        font-size: 15px;
+        background: white;
+        font-family: inherit;
+        cursor: pointer;
+    }
+
+        .customer-select:focus {
+            outline: none;
+            border-color: #c62828;
+            box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.1);
+        }
+
+    /* Due Summary Card */
+    .due-summary {
+        background: linear-gradient(135deg, #fff5f5, #ffebee);
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 16px;
+        border: 1px solid #ffcdd2;
+        text-align: center;
+    }
+
+    .due-label {
+        font-size: 14px;
+        color: #c62828;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    .due-amount {
+        font-size: 32px;
+        font-weight: 800;
+        color: #c62828;
+        margin-bottom: 5px;
+    }
+
+    .next-payment-date {
+        font-size: 13px;
+        color: #e65100;
+        background: #fff3e0;
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 30px;
+        margin-top: 10px;
+    }
+
+    /* Form Card */
+    .form-card {
+        background: white;
+        border-radius: 24px;
+        padding: 20px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .section-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a1a2e;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .section-title i {
+            color: #c62828;
+        }
+
+    .input-group {
+        margin-bottom: 16px;
+    }
+
+    .input-label {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 8px;
+        display: block;
+        font-weight: 500;
+    }
+
+    .input-field {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid #e0e0e0;
+        border-radius: 16px;
+        font-size: 15px;
+        transition: all 0.2s;
+    }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #c62828;
+            box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.1);
+        }
+
+    /* Payment Input Group */
+    .payment-input-group {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .payment-input {
+        flex: 1;
+        padding: 14px 16px;
+        border: 1px solid #e0e0e0;
+        border-radius: 16px;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: right;
+    }
+
+        .payment-input:focus {
+            outline: none;
+            border-color: #c62828;
+        }
+
+    .payment-currency {
+        font-size: 18px;
+        font-weight: 700;
+        color: #c62828;
+    }
+
+    /* New Due Display */
+    .new-due-box {
+        background: #e8f5e9;
+        border-radius: 16px;
+        padding: 14px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+        border: 1px solid #c8e6c9;
+    }
+
+    .new-due-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2e7d32;
+    }
+
+    .new-due-amount {
+        font-size: 22px;
+        font-weight: 800;
+        color: #2e7d32;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #c62828, #ef5350);
+        border: none;
+        border-radius: 30px;
+        font-size: 16px;
+        font-weight: 600;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+    /* Payment History */
+    .history-card {
+        background: white;
+        border-radius: 24px;
+        padding: 20px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .history-item {
+        background: #f8f9fa;
+        border-radius: 16px;
+        padding: 14px;
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .history-info {
+        flex: 1;
+    }
+
+    .history-amount {
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+    .history-date {
+        font-size: 11px;
+        color: #999;
+        margin-top: 4px;
+    }
+
+    .history-note {
+        font-size: 12px;
+        color: #666;
+        margin-top: 4px;
+    }
+
+    .delete-history {
+        width: 36px;
+        height: 36px;
+        background: #fee;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #dc3545;
+        cursor: pointer;
+        margin-left: 12px;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: #999;
+    }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+    /* Modal */
+    .modal-custom {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .modal-content-custom {
+        background: white;
+        border-radius: 32px;
+        max-width: 320px;
+        width: 100%;
+        text-align: center;
+        padding: 24px;
+        animation: modalIn 0.3s ease;
+    }
+
+    @@keyframes modalIn {
+        from {
+            transform: scale(0.9);
+            opacity: 0;
+        }
+
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .modal-icon {
+        width: 64px;
+        height: 64px;
+        background: #d4edda;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+        color: #28a745;
+        font-size: 32px;
+    }
+
+    .modal-title-custom {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .modal-text {
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    .modal-btn {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #c62828, #ef5350);
+        border: none;
+        border-radius: 30px;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    /* Toast */
+    .toast-notification {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        background: #1a1a2e;
+        color: white;
+        padding: 14px 20px;
+        border-radius: 30px;
+        text-align: center;
+        font-size: 14px;
+        z-index: 1100;
+        animation: slideUp 0.3s ease;
+    }
+
+    @@keyframes slideUp {
+        from {
+            transform: translateY(100px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .toast-notification.success {
+        background: #28a745;
+    }
+
+    .toast-notification.error {
+        background: #dc3545;
+    }
+
+    /* Flex Row */
+    .flex-row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+
+        .flex-row .input-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+    /* Next Payment Date Highlight */
+    .next-date-info {
+        background: #fff3e0;
+        border-radius: 16px;
+        padding: 12px;
+        margin-top: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-left: 4px solid #e65100;
+    }
+
+    .next-date-label {
+        font-size: 13px;
+        color: #e65100;
+        font-weight: 500;
+    }
+
+    .next-date-value {
+        font-size: 14px;
+        font-weight: 700;
+        color: #e65100;
+    }
+
+    .edit-next-date {
+        background: none;
+        border: none;
+        color: #e65100;
+        cursor: pointer;
+        font-size: 12px;
+    }
+</style>
+
+<div class="mobile-container">
+    <!-- Header -->
+    <div class="app-header">
+        <div class="header-title">
+            <h1>বাকি</h1>
+            <p>বাকি ব্যবস্থাপনা</p>
+        </div>
+        <div class="header-icon">
+            <i class="fas fa-hand-holding-usd"></i>
+        </div>
+    </div>
+
+    <!-- Customer Selection -->
+    <div class="customer-card">
+        <div class="card-title">
+            <i class="fas fa-user-circle"></i>
+            গ্রাহক নির্বাচন করুন
+        </div>
+        <select class="customer-select" id="customerSelect" onchange="loadCustomerDue()">
+            <option value="">-- গ্রাহক নির্বাচন করুন --</option>
+        </select>
+    </div>
+
+    <!-- Due Summary -->
+    <div class="due-summary" id="dueSummary" style="display: none;">
+        <div class="due-label">
+            <i class="fas fa-exclamation-triangle"></i> বাকি পরিমাণ
+        </div>
+        <div class="due-amount" id="dueAmount">৳ 0</div>
+        <div class="next-payment-date" id="nextPaymentDateBadge">
+            <i class="fas fa-calendar-alt"></i> <span id="nextDateText">পরবর্তী তারিখ নির্ধারণ করুন</span>
+        </div>
+    </div>
+
+    <!-- Payment Form -->
+    <div class="form-card" id="paymentForm" style="display: none;">
+        <div class="section-title">
+            <i class="fas fa-money-bill-wave"></i>
+            টাকা প্রদান করুন
+        </div>
+
+        <div class="input-group">
+            <label class="input-label">বর্তমান বাকি</label>
+            <div class="payment-input-group">
+                <span class="payment-currency">৳</span>
+                <input type="text" class="payment-input" id="currentDue" readonly style="background: #f5f5f5;">
+            </div>
+        </div>
+
+        <div class="flex-row">
+            <div class="input-group">
+                <label class="input-label">প্রদান করছেন</label>
+                <div class="payment-input-group">
+                    <span class="payment-currency">৳</span>
+                    <input type="number" class="payment-input" id="paymentAmount" placeholder="0" step="any" oninput="updateNewDue()">
+                </div>
+            </div>
+            <div class="input-group">
+                <label class="input-label">তারিখ</label>
+                <input type="date" class="input-field" id="paymentDate">
+            </div>
+        </div>
+
+        <!-- নতুন বাকি হবে - Separate Box -->
+        <div class="new-due-box">
+            <span class="new-due-label"><i class="fas fa-calculator"></i> নতুন বাকি হবে</span>
+            <span class="new-due-amount" id="newDueAmountDisplay">৳ 0</span>
+        </div>
+
+        <div class="input-group">
+            <label class="input-label">বিঃদ্রঃ (ঐচ্ছিক)</label>
+            <input type="text" class="input-field" id="paymentNote" placeholder="যেমন: আংটির বাকি টাকা">
+        </div>
+
+        <!-- আবার টাকা দেয়ার তারিখ -->
+        <div class="input-group">
+            <label class="input-label">
+                <i class="fas fa-calendar-plus"></i> আবার টাকা দেয়ার তারিখ
+            </label>
+            <input type="date" class="input-field" id="nextPaymentDate">
+        </div>
+
+        <button class="submit-btn" onclick="addPayment()">
+            <i class="fas fa-check-circle"></i> টাকা প্রদান করুন
+        </button>
+    </div>
+
+    <!-- Payment History -->
+    <div class="history-card" id="historyCard" style="display: none;">
+        <div class="section-title">
+            <i class="fas fa-history"></i>
+            প্রদানের ইতিহাস
+        </div>
+        <div id="historyContainer">
+            <div class="empty-state">
+                <i class="fas fa-receipt"></i>
+                <p>কোনো ইতিহাস নেই</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal-custom" id="successModal">
+    <div class="modal-content-custom">
+        <div class="modal-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="modal-title-custom">টাকা প্রদান সম্পন্ন!</div>
+        <div class="modal-text" id="modalText"></div>
+        <button class="modal-btn" onclick="closeModal()">ঠিক আছে</button>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+<script>
+    // Mock Customers Data
+    const mockCustomers = [
+        { id: 1, name: "রহিম মিয়া", phone: "01712-345678", address: "ধানমন্ডি, ঢাকা" },
+        { id: 2, name: "করিমা বেগম", phone: "01812-345679", address: "গুলশান, ঢাকা" },
+        { id: 3, name: "শফিকুল ইসলাম", phone: "01912-345680", address: "বনানী, ঢাকা" },
+        { id: 4, name: "নাসরিন আক্তার", phone: "01612-345681", address: "মিরপুর, ঢাকা" },
+        { id: 5, name: "জাহিদ হাসান", phone: "01512-345682", address: "উত্তরা, ঢাকা" },
+        { id: 6, name: "ফাতেমা বেগম", phone: "01312-345683", address: "মোহাম্মদপুর, ঢাকা" },
+        { id: 7, name: "আব্দুল্লাহ আল মামুন", phone: "01711-123456", address: "যশোর" },
+        { id: 8, name: "শাহীন আক্তার", phone: "01822-234567", address: "খুলনা" }
+    ];
+
+    // Mock Due Data (পূর্বে সংরক্ষিত বাকি তথ্য)
+    let dueData = {
+        1: { totalDue: 2500, nextPaymentDate: '2024-05-15', history: [] },
+        2: { totalDue: 5000, nextPaymentDate: '2024-05-20', history: [] },
+        3: { totalDue: 1200, nextPaymentDate: '2024-05-10', history: [] },
+        4: { totalDue: 0, nextPaymentDate: '', history: [] },
+        5: { totalDue: 3500, nextPaymentDate: '2024-05-25', history: [] },
+        6: { totalDue: 1800, nextPaymentDate: '2024-05-18', history: [] },
+        7: { totalDue: 4200, nextPaymentDate: '2024-05-30', history: [] },
+        8: { totalDue: 750, nextPaymentDate: '2024-05-12', history: [] }
+    };
+
+    // Initialize with some demo history
+    function initDemoHistory() {
+        // রহিম মিয়ার ইতিহাস
+        if (dueData[1].history.length === 0) {
+            dueData[1].history = [
+                { id: 1, date: '2024-04-15', amount: 500, note: 'সোনার চেইনের বাকি টাকা', type: 'due' },
+                { id: 2, date: '2024-04-18', amount: 200, note: 'আংটির বাকি টাকা', type: 'due' },
+                { id: 3, date: '2024-04-20', amount: 1800, note: 'মালার বাকি টাকা', type: 'due' },
+                { id: 4, date: '2024-04-25', amount: 1500, note: 'ঈদ উপলক্ষে প্রদান', type: 'payment', paid: 1500 },
+                { id: 5, date: '2024-04-28', amount: 500, note: 'আংশিক প্রদান', type: 'payment', paid: 500 }
+            ];
+            dueData[1].totalDue = 500;
+        }
+
+        // করিমা বেগমের ইতিহাস
+        if (dueData[2].history.length === 0) {
+            dueData[2].history = [
+                { id: 1, date: '2024-04-10', amount: 3000, note: 'নেকলেসের বাকি', type: 'due' },
+                { id: 2, date: '2024-04-15', amount: 2000, note: 'ব্রেসলেটের বাকি', type: 'due' },
+                { id: 3, date: '2024-04-20', amount: 1000, note: 'টাকা প্রদান', type: 'payment', paid: 1000 }
+            ];
+            dueData[2].totalDue = 4000;
+        }
+
+        // শফিকুল ইসলামের ইতিহাস
+        if (dueData[3].history.length === 0) {
+            dueData[3].history = [
+                { id: 1, date: '2024-04-12', amount: 500, note: 'আংটির বাকি', type: 'due' },
+                { id: 2, date: '2024-04-18', amount: 700, note: 'চেইনের বাকি', type: 'due' }
+            ];
+            dueData[3].totalDue = 1200;
+        }
+    }
+
+    let currentCustomerId = null;
+
+    $(document).ready(function() {
+        initDemoHistory();
+        loadCustomers();
+        setTodayDate();
+        setDefaultNextDate();
+    });
+
+    function loadCustomers() {
+        let options = '<option value="">-- গ্রাহক নির্বাচন করুন --</option>';
+        for(let i = 0; i < mockCustomers.length; i++) {
+            options += '<option value="' + mockCustomers[i].id + '">' + mockCustomers[i].name + ' (' + mockCustomers[i].phone + ')</option>';
+        }
+        $('#customerSelect').html(options);
+    }
+
+    function setTodayDate() {
+        const today = new Date().toISOString().split('T')[0];
+        $('#paymentDate').val(today);
+    }
+
+    function setDefaultNextDate() {
+        const today = new Date();
+        const nextWeek = new Date(today);
+        nextWeek.setDate(today.getDate() + 7);
+        $('#nextPaymentDate').val(nextWeek.toISOString().split('T')[0]);
+    }
+
+    function updateNewDue() {
+        let currentDue = parseFloat($('#currentDue').val().replace(/,/g, '')) || 0;
+        let payment = parseFloat($('#paymentAmount').val()) || 0;
+        let newDueValue = currentDue - payment;
+        if (newDueValue < 0) newDueValue = 0;
+        $('#newDueAmountDisplay').text('৳ ' + formatNumberWithCommas(newDueValue));
+    }
+
+    function loadCustomerDue() {
+        const customerId = parseInt($('#customerSelect').val());
+        if (!customerId) {
+            $('#dueSummary').hide();
+            $('#paymentForm').hide();
+            $('#historyCard').hide();
+            return;
+        }
+
+        currentCustomerId = customerId;
+        const customer = mockCustomers.find(c => c.id === customerId);
+        const due = dueData[customerId] || { totalDue: 0, nextPaymentDate: '', history: [] };
+
+        // Update due summary
+        $('#dueAmount').text('৳ ' + formatNumberWithCommas(due.totalDue));
+
+        // Update next payment date badge
+        if (due.nextPaymentDate) {
+            $('#nextDateText').text('পরবর্তী প্রদানের তারিখ: ' + formatDate(due.nextPaymentDate));
+        } else {
+            $('#nextDateText').text('পরবর্তী তারিখ নির্ধারণ করুন');
+        }
+        $('#dueSummary').show();
+
+        // Update payment form
+        $('#currentDue').val(formatNumberWithCommas(due.totalDue));
+        $('#paymentAmount').val('');
+        $('#newDueAmountDisplay').text('৳ ' + formatNumberWithCommas(due.totalDue));
+        $('#paymentNote').val('');
+
+        // Set next payment date to stored value or default
+        if (due.nextPaymentDate) {
+            $('#nextPaymentDate').val(due.nextPaymentDate);
+        } else {
+            setDefaultNextDate();
+        }
+
+        $('#paymentForm').show();
+
+        // Update history
+        renderHistory(customerId, customer);
+        $('#historyCard').show();
+    }
+
+    function renderHistory(customerId, customer) {
+        const history = dueData[customerId]?.history || [];
+
+        if (history.length === 0) {
+            $('#historyContainer').html('<div class="empty-state"><i class="fas fa-receipt"></i><p>কোনো ইতিহাস নেই</p></div>');
+            return;
+        }
+
+        let html = '';
+        // Show history in reverse order (latest first)
+        [...history].reverse().forEach(item => {
+            const isPayment = item.type === 'payment';
+            const amount = isPayment ? item.paid : item.amount;
+            const amountText = isPayment ? 'প্রদান করলেন: ৳ ' + formatNumberWithCommas(amount) : 'বাকি: ৳ ' + formatNumberWithCommas(amount);
+            const amountClass = isPayment ? '#28a745' : '#c62828';
+            const icon = isPayment ? '<i class="fas fa-arrow-up"></i>' : '<i class="fas fa-arrow-down"></i>';
+
+            html += '<div class="history-item">' +
+                        '<div class="history-info">' +
+                            '<div class="history-amount" style="color: ' + amountClass + ';">' + icon + ' ' + amountText + '</div>' +
+                            '<div class="history-date"><i class="far fa-calendar-alt"></i> ' + formatDate(item.date) + '</div>' +
+                            '<div class="history-note"><i class="fas fa-pen"></i> ' + escapeHtml(item.note) + '</div>' +
+                        '</div>' +
+                        '<div class="delete-history" onclick="deleteHistoryItem(' + customerId + ', ' + item.id + ')">' +
+                            '<i class="fas fa-trash-alt"></i>' +
+                        '</div>' +
+                    '</div>';
+        });
+
+        $('#historyContainer').html(html);
+    }
+
+    function addPayment() {
+        if (!currentCustomerId) {
+            showToast('error', 'গ্রাহক নির্বাচন করুন');
+            return;
+        }
+
+        const paymentAmount = parseFloat($('#paymentAmount').val());
+        if (isNaN(paymentAmount) || paymentAmount <= 0) {
+            showToast('error', 'সঠিক টাকার পরিমাণ দিন');
+            return;
+        }
+
+        const currentDue = dueData[currentCustomerId]?.totalDue || 0;
+        if (paymentAmount > currentDue) {
+            showToast('error', 'বাকি টাকার চেয়ে বেশি প্রদান করা যাবে না');
+            return;
+        }
+
+        const paymentDate = $('#paymentDate').val();
+        if (!paymentDate) {
+            showToast('error', 'তারিখ নির্বাচন করুন');
+            return;
+        }
+
+        const paymentNote = $('#paymentNote').val().trim() || 'টাকা প্রদান';
+        const nextPaymentDate = $('#nextPaymentDate').val();
+
+        // Add payment to history
+        const newPayment = {
+            id: Date.now(),
+            date: paymentDate,
+            paid: paymentAmount,
+            note: paymentNote,
+            type: 'payment'
+        };
+
+        if (!dueData[currentCustomerId]) {
+            dueData[currentCustomerId] = { history: [], totalDue: 0, nextPaymentDate: '' };
+        }
+
+        dueData[currentCustomerId].history.push(newPayment);
+        dueData[currentCustomerId].totalDue = currentDue - paymentAmount;
+
+        // Update next payment date if provided
+        if (nextPaymentDate && dueData[currentCustomerId].totalDue > 0) {
+            dueData[currentCustomerId].nextPaymentDate = nextPaymentDate;
+        } else if (dueData[currentCustomerId].totalDue === 0) {
+            dueData[currentCustomerId].nextPaymentDate = '';
+        }
+
+        // Reload customer due to update UI
+        loadCustomerDue();
+
+        // Show success modal
+        const modalText = paymentAmount.toLocaleString() + ' টাকা প্রদান করা হয়েছে।\nনতুন বাকি: ' + dueData[currentCustomerId].totalDue.toLocaleString() + ' টাকা';
+        $('#modalText').text(modalText);
+        $('#successModal').fadeIn(200);
+
+        showToast('success', 'টাকা প্রদান সম্পন্ন হয়েছে');
+    }
+
+    function deleteHistoryItem(customerId, historyId) {
+        if (confirm('এই ইতিহাসটি ডিলিট করতে চান?')) {
+            const history = dueData[customerId]?.history || [];
+            const itemToDelete = history.find(item => item.id === historyId);
+
+            if (itemToDelete) {
+                if (itemToDelete.type === 'payment') {
+                    // If deleting a payment, add back the amount to due
+                    dueData[customerId].totalDue += itemToDelete.paid;
+                }
+                // Remove the item
+                dueData[customerId].history = history.filter(item => item.id !== historyId);
+
+                // Reload customer due
+                if (currentCustomerId === customerId) {
+                    loadCustomerDue();
+                }
+                showToast('success', 'ইতিহাস ডিলিট করা হয়েছে');
+            }
+        }
+    }
+
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        const date = new Date(dateStr);
+        const months = ['জানু', 'ফেব্রু', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'];
+        return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
+    }
+
+    function formatNumberWithCommas(num) {
+        if (num === undefined || num === null) return "0";
+        return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        return text.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function closeModal() {
+        $('#successModal').fadeOut(200);
+    }
+
+    function showToast(type, message) {
+        const toast = document.createElement('div');
+        toast.className = 'toast-notification ' + type;
+        toast.innerHTML = '<i class="fas ' + (type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle') + '"></i> ' + message;
+        document.body.appendChild(toast);
+
+        setTimeout(function() {
+            toast.style.opacity = '0';
+            setTimeout(function() {
+                if(toast.parentNode) toast.parentNode.removeChild(toast);
+            }, 300);
+        }, 2000);
+    }
+</script>

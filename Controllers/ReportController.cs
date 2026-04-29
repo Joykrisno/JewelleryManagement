@@ -8,5 +8,9 @@ namespace JewelleryManagement.Controllers
         {
             return View();
         }
+        public IActionResult Due()
+        {
+            return View();
+        }
     }
 }
